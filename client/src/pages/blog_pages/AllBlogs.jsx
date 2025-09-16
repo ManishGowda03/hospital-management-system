@@ -161,7 +161,6 @@ export default function AllBlogs() {
       .filter((blog) => {
         // Check if blog properties are defined before applying toLowerCase
         const titleMatch = blog.title?.toLowerCase().includes(value);
-        const authorMatch = blog.author?.name?.toLowerCase().includes(value);
         const categoryMatch = blog.category?.toLowerCase().includes(value);
         const tagsMatch = blog.tags?.some((tag) =>
           tag.toLowerCase().includes(value)
@@ -265,10 +264,6 @@ export default function AllBlogs() {
                     month: "long",
                     day: "numeric",
                   })}
-                </p>
-                <p className="text-sm text-gray-600 mb-2 flex items-center">
-                  <FaUser className="mr-1 text-red-500" />
-                  {blog.author.name}
                 </p>
                 <p className="text-sm text-gray-600 mb-2 flex items-center">
                   <FaTags className="mr-1 text-green-500" />
