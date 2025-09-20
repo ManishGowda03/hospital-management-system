@@ -174,6 +174,18 @@ export default function AllBlogs() {
     setCurrentPage(1); // Reset to first page after search
   };
 
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this blog?")) return;
+    try {
+      await axios.delete(`${globalBackendRoute}/api/delete-blog/${id}`);
+      setBlogs((prev) => prev.filter((blog) => blog._id !== id));
+      setFilteredBlogs((prev) => prev.filter((blog) => blog._id !== id));
+    } catch (error) {
+      console.error("Error deleting blog:", error);
+    }
+  };
+
+
   // Define paginatedBlogs here based on the current page and items per page
   const itemsPerPage = 6;
   const totalPages = Math.ceil(filteredBlogs.length / itemsPerPage);
@@ -224,13 +236,12 @@ export default function AllBlogs() {
       </div>
 
       <motion.div
-        className={`grid gap-6 ${
-          view === "list"
+        className={`grid gap-6 ${view === "list"
             ? "grid-cols-1"
             : view === "grid"
-            ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-            : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
-        }`}
+              ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+              : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
+          }`}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
@@ -240,23 +251,31 @@ export default function AllBlogs() {
             <motion.div
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className={`border rounded-lg shadow-sm hover:shadow-md transition-shadow bg-white overflow-hidden ${
-                view === "list" ? "flex items-center p-4" : ""
-              }`}
+              className={`border rounded-lg shadow-sm hover:shadow-md transition-shadow bg-white overflow-hidden ${view === "list" ? "flex items-center p-4" : ""
+                }`}
             >
               <img
                 src={getImageUrl(blog.featuredImage)}
                 alt={blog.title}
-                className={`${
-                  view === "list"
+                className={`${view === "list"
                     ? "w-24 h-24 object-cover mr-4"
                     : "w-full h-48 object-cover mb-4"
-                }`}
+                  }`}
               />
               <div className={`${view === "list" ? "flex-1" : "p-4"}`}>
                 <h3 className="text-lg font-bold text-gray-900 mb-2 text-left">
                   {blog.title}
                 </h3>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault(); // Prevent navigating to single-blog
+                    handleDelete(blog._id);
+                  }}
+                  className="text-red-500 hover:text-red-700 ml-2"
+                >
+                  <FaTrash />
+                </button>
+
                 <p className="text-sm text-gray-600 mb-2 flex items-center">
                   <FaCalendar className="mr-1 text-yellow-500" />
                   {new Date(blog.publishedDate).toLocaleDateString("en-US", {
@@ -286,11 +305,10 @@ export default function AllBlogs() {
         <button
           onClick={goToPreviousPage}
           disabled={currentPage === 1}
-          className={`flex items-center space-x-2 px-4 py-2 rounded-md text-white ${
-            currentPage === 1
+          className={`flex items-center space-x-2 px-4 py-2 rounded-md text-white ${currentPage === 1
               ? "bg-gray-300"
               : "bg-indigo-600 hover:bg-indigo-500"
-          }`}
+            }`}
         >
           <FaArrowLeft />
           <span>Previous</span>
@@ -301,11 +319,10 @@ export default function AllBlogs() {
         <button
           onClick={goToNextPage}
           disabled={currentPage === totalPages}
-          className={`flex items-center space-x-2 px-4 py-2 rounded-md text-white ${
-            currentPage === totalPages
+          className={`flex items-center space-x-2 px-4 py-2 rounded-md text-white ${currentPage === totalPages
               ? "bg-gray-300"
               : "bg-indigo-600 hover:bg-indigo-500"
-          }`}
+            }`}
         >
           <span>Next</span>
           <FaArrowRight />

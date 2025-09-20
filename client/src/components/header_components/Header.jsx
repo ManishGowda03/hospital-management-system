@@ -69,7 +69,7 @@ export default function Header() {
     <header>
       {/* Desktop Header */}
       <nav className="bg-white" aria-label="Global">
-        <div className="containerWidth flex items-center justify-between py-4">
+        <div className="w-full flex items-center justify-between shadow py-4">
           {/* Logo */}
           <div className="flex lg:flex-1">
             <CustomeLink linkAddress="/home" linkName="HMS" />

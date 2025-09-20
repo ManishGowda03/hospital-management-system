@@ -106,9 +106,34 @@ const getBlogById = async (req, res) => {
   }
 };
 
+// Delete a blog by ID
+const deleteBlog = async (req, res) => {
+  try {
+    const blogId = req.params.id;
+
+    const blog = await Blog.findByIdAndDelete(blogId);
+
+    if (!blog) {
+      return res.status(404).json({ message: "Blog not found" });
+    }
+
+    // Optionally, delete the uploaded image from filesystem
+    if (blog.featuredImage && fs.existsSync(blog.featuredImage)) {
+      fs.unlinkSync(blog.featuredImage);
+    }
+
+    res.status(200).json({ message: "Blog deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting blog:", error);
+    res.status(500).json({ message: "An error occurred while deleting the blog" });
+  }
+};
+
+
 module.exports = {
   blogUpload,
   addBlog,
   getAllBlogs,
   getBlogById,
+  deleteBlog,
 };

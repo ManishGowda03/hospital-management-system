@@ -1,75 +1,57 @@
 import React from "react";
 import { CiFacebook, FaGithub, CiTwitter, CiLinkedin } from "../../icons/Icons";
-import SubscriptionForm from "./SubscriptionForm";
 
 const Footer = () => {
   return (
     <div>
       {/* Top Footer */}
-      <div className="bg-gray-50 px-4 py-6">
-        <div className="footer_parent grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 text-sm text-center p-5">
+      <div className="bg-gray-800 px-4 py-6">
+        <div className="footer_parent grid grid-cols-2 sm:grid-cols-3  gap-6 text-sm text-center p-5">
           {/* Web Links */}
           <div>
-            <p className="font-bold mb-2">Web Links</p>
+            <p className="font-bold mb-2 text-white">Web Links</p>
             <nav className="flex flex-col gap-2">
-              <a href="/home" className="text-gray-700 hover:text-black">
+              <a href="/home" className="text-gray-50 hover:text-blue-400">
                 Home
               </a>
-              <a href="/about-us" className="text-gray-700 hover:text-black">
+              <a href="/about-us" className="text-gray-50 hover:text-blue-400">
                 About Us
               </a>
-              <a href="/contact-us" className="text-gray-700 hover:text-black">
+              <a href="/contact-us" className="text-gray-50 hover:text-blue-400">
                 Contact Us
+              </a>
+              <a href="/all-blogs" className="text-gray-50 hover:text-blue-400">
+                Blog
               </a>
             </nav>
           </div>
 
           {/* Social Links */}
           <div>
-            <p className="font-bold mb-2 text-lg">Social Links</p>
+            <p className="font-bold mb-2 text-lg text-white">Social Links</p>
             <nav className="flex flex-col gap-2">
-              <a href="#" className="text-gray-700 hover:text-black">
+              <a href="#" className="text-gray-50 hover:text-blue-400">
                 Facebook
               </a>
-              <a href="#" className="text-gray-700 hover:text-black">
+              <a href="#" className="text-gray-50 hover:text-blue-400">
                 Twitter
               </a>
-              <a href="#" className="text-gray-700 hover:text-black">
+              <a href="#" className="text-gray-50 hover:text-blue-400">
                 LinkedIn
-              </a>
-            </nav>
-          </div>
-
-          {/* Policies */}
-          <div>
-            <p className="font-bold mb-2 text-lg">Policies</p>
-            <nav className="flex flex-col gap-2">
-              <a
-                href="/privacy-policy"
-                className="text-gray-700 hover:text-black"
-              >
-                Privacy Policy
-              </a>
-              <a
-                href="/return-policy"
-                className="text-gray-700 hover:text-black"
-              >
-                Return Policy
               </a>
             </nav>
           </div>
 
           {/* Address */}
           <div>
-            <p className="font-bold mb-2 text-lg">Address</p>
+            <p className="font-bold mb-2 text-lg text-white">Address</p>
             <nav className="flex flex-col gap-2">
-              <span className="text-gray-700">HMS</span>
-              <span className="text-gray-700">Bangalore</span>
-              <span className="text-gray-700">560057</span>
+              <span className="text-gray-50">HMS Hospital</span>
+              <span className="text-gray-50">Bangalore</span>
+              <span className="text-gray-50">560057</span>
             </nav>
           </div>
         </div>
-        <SubscriptionForm />
       </div>
 
       {/* Bottom Footer */}
@@ -84,7 +66,7 @@ const Footer = () => {
           <a href="#" className="hover:text-blue-400">
             <CiTwitter />
           </a>
-          <a href="#" className="hover:text-gray-300">
+          <a href="#" className="hover:text-blue-400">
             <FaGithub />
           </a>
           <a href="#" className="hover:text-blue-400">
