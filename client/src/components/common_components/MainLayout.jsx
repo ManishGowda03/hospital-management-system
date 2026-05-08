@@ -17,8 +17,6 @@ import AdminDashboard from "../../pages/admin_pages/AdminDashboard";
 import SuperAdminDashboard from "../../pages/superadmin_pages/SuperAdminDashboard";
 import EmployeeDashboard from "../../pages/employee_pages/EmployeeDashboard";
 import Profile from "../../pages/user_pages/Profile";
-import DeliveryAgentDashboard from "../../pages/delivery_agent_pages/DeliveryAgentDashboard";
-import HrDashboard from "../../pages/hr_pages/HrDashboard";
 import OutletDashboard from "../../pages/outlet_pages/OutletDashboard";
 import VendorDashboard from "../../pages/vendor_pages/VendorDashboard";
 import UpdateProfile from "../../pages/user_pages/UpdateProfile";
@@ -256,26 +254,6 @@ const MainLayout = () => {
               <PrivateRoute allowedRoles={["employee", "superadmin"]}>
                 <PageTitle title="Employee Dashboard">
                   <EmployeeDashboard />
-                </PageTitle>
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/delivery-agent-dashboard"
-            element={
-              <PrivateRoute allowedRoles={["delivery_agent", "superadmin"]}>
-                <PageTitle title="Delivery Agent Dashboard">
-                  <DeliveryAgentDashboard />
-                </PageTitle>
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/hr-dashboard"
-            element={
-              <PrivateRoute allowedRoles={["hr", "superadmin"]}>
-                <PageTitle title="Human Resource Dashboard">
-                  <HrDashboard />
                 </PageTitle>
               </PrivateRoute>
             }

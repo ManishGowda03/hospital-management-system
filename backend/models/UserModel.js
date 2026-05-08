@@ -29,8 +29,6 @@ const userSchema = new mongoose.Schema({
       "ward_boy", // Assists in patient mobility
       "cleaning_staff", // Housekeeping
       "accountant", // Billing and finance
-      "hr_manager", // Human Resources
-      "it_support", // Technical issues
       "ambulance_driver", // Emergency patient transport
       "maintenance_staff", // Facility upkeep
       "intern", // Medical Interns
@@ -47,7 +45,6 @@ const userSchema = new mongoose.Schema({
       "vendor", // Supplies and medical equipment provider
       "medical_representative", // Pharmaceutical rep
       "health_inspector", // Government health official
-      "delivery_person", // External delivery (equipment, food, etc.)
       "emergency_responder", // External paramedics/ambulance
       "blood_donor", // Voluntary donor
       "volunteer", // NGO or individual contributor
