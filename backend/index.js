@@ -84,7 +84,7 @@ app.use((req, res, next) => {
 
 // connect to mongodb database.
 mongoose
-  .connect("mongodb://127.0.0.1:27017/hms")
+  .connect("mongodb+srv://quizmaster:MongoQuizA01@cluster0.xfxwwiv.mongodb.net/hospital?")
   .then(() => {
     console.log("Connected to database.");
   })
