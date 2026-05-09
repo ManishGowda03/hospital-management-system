@@ -125,14 +125,14 @@ const AllHospitals = () => {
           {filteredHospitals.length === 0 ? (
             <p className="text-center text-gray-500">No hospitals found.</p>
           ) : view === "grid" ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
               {filteredHospitals.map((hospital) => (
                 <div
                   key={hospital._id}
                   onClick={() => handleNavigate(hospital._id)}
-                  className="relative cursor-pointer flex flex-col items-start bg-white shadow rounded-lg overflow-hidden hover:shadow-lg transition"
+                  className="relative cursor-pointer flex flex-col items-start bg-white shadow rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 p-2 border"
                 >
-                  <div className="p-3 w-full">
+                  <div className="p-4 w-full space-y-2">
                     <h3 className="subHeadingTextMobile flex items-center gap-2">
                       <FaHospitalSymbol className="text-green-500" />{" "}
                       {hospital.hospital_name}
@@ -143,7 +143,7 @@ const AllHospitals = () => {
                     <p className="paragraphTextMobile flex items-center gap-2">
                       <FaPhone /> {hospital.hospital_phone}
                     </p>
-                    <p className="paragraphTextMobile flex items-center gap-2">
+                    <p className="text-sm text-gray-600 flex items-start gap-2 break-all">
                       <FaEnvelope /> {hospital.hospital_email}
                     </p>
                   </div>

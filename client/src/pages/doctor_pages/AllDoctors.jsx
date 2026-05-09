@@ -126,7 +126,7 @@ const AllDoctors = () => {
             <div
               className={
                 view === "grid"
-                  ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4"
+                  ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
                   : view === "card"
                   ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
                   : "space-y-4"
@@ -136,23 +136,23 @@ const AllDoctors = () => {
                 <div
                   key={doctor._id}
                   onClick={() => handleNavigate(doctor._id)}
-                  className="relative cursor-pointer flex flex-col items-start bg-white shadow rounded-lg p-4 hover:shadow-lg transition"
+                  className="relative cursor-pointer bg-white shadow rounded-xl p-4 border hover:shadow-lg transition-all duration-300"
                 >
-                  <h3 className="subHeadingTextMobile flex items-center gap-2 mb-1">
-                    <FaUserMd className="text-green-500" /> {doctor.doctor_name}
+                  <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2 mb-2">
+                    <FaUserMd className="text-green-500 text-lg" /> {doctor.doctor_name}
                   </h3>
-                  <p className="paragraphTextMobile flex items-center gap-2">
+                  <p className="text-sm text-gray-600 flex items-start gap-2 mb-1">
                     <FaClipboardCheck /> {doctor.specialization}
                   </p>
-                  <p className="paragraphTextMobile flex items-center gap-2">
+                  <p className="text-sm text-gray-600 flex items-start gap-2 mb-1">
                     <FaBriefcase /> {doctor.experience_years} yrs experience
                   </p>
-                  <p className="paragraphTextMobile flex items-center gap-2">
+                  <p className="text-sm text-gray-600 flex items-start gap-2 mb-1">
                     <FaUserGraduate /> {doctor.qualifications}
                   </p>
                   <button
                     onClick={(e) => handleDeleteDoctor(doctor._id, e)}
-                    className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full shadow hover:bg-red-600"
+                    className="absolute top-3 right-3 bg-red-500 text-white p-1.5 rounded-full shadow hover:bg-red-600 transition"
                   >
                     <FaTrash />
                   </button>

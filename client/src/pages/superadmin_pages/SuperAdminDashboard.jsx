@@ -98,13 +98,6 @@ const SuperadminDashboard = () => {
     },
 
     {
-      title: "All Blood Records",
-      value: "Manage Blood Records",
-      link: "/all-bloods",
-      icon: iconMap.blood,
-    },
-
-    {
       title: "All Pediatrics",
       value: "Manage Pediatrics",
       link: "/all-pediatrics",
@@ -112,10 +105,17 @@ const SuperadminDashboard = () => {
     },
 
     {
-      title: "All Mortuary Records",
-      value: "Manage Mortuary",
-      link: "/all-mortuary",
-      icon: iconMap.mortuary,
+      title: "All Blood Records",
+      value: "Manage Blood Records",
+      link: "/all-bloods",
+      icon: iconMap.blood,
+    },
+
+    {
+      title: "All Discharge Records",
+      value: "Manage Discharge",
+      link: "/all-discharges",
+      icon: iconMap.appointment,
     },
 
     {
@@ -123,6 +123,13 @@ const SuperadminDashboard = () => {
       value: "Manage Appointments",
       link: "/superadmin-all-appointments",
       icon: iconMap.appointment,
+    },
+
+    {
+      title: "All Mortuary Records",
+      value: "Manage Mortuary",
+      link: "/all-mortuary",
+      icon: iconMap.mortuary,
     },
 
     {
