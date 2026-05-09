@@ -117,7 +117,7 @@ const AllBloods = () => {
             <div
               className={
                 view === "grid"
-                  ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4"
+ ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
                   : view === "card"
                   ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
                   : "space-y-4"
@@ -127,23 +127,23 @@ const AllBloods = () => {
                 <div
                   key={b._id}
                   onClick={() => navigate(`/single-blood/${b._id}`)}
-                  className="relative cursor-pointer flex flex-col items-start bg-white shadow rounded-lg p-4 hover:shadow-lg transition"
+                  className="relative cursor-pointer bg-white shadow rounded-xl p-4 border hover:shadow-lg transition-all duration-300"
                 >
-                  <h3 className="subHeadingTextMobile flex items-center gap-2 mb-1">
+                  <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2 mb-2">
                     <FaTint className="text-red-500" /> {b.blood_group}
                   </h3>
-                  <p className="paragraphTextMobile flex items-center gap-2">
+                  <p className="text-sm text-gray-600 flex items-start gap-2 mb-1">
                     <FaUser /> {b.donor_name}
                   </p>
-                  <p className="paragraphTextMobile flex items-center gap-2">
+                  <p className="text-sm text-gray-600 flex items-start gap-2 mb-1">
                     <FaPhone /> {b.contact_number}
                   </p>
-                  <p className="paragraphTextMobile flex items-center gap-2">
+                  <p className="text-sm text-gray-600 flex items-start gap-2 mb-1">
                     <FaBalanceScale /> {b.quantity_in_units} units
                   </p>
                   <button
                     onClick={(e) => handleDeleteBlood(b._id, e)}
-                    className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full shadow hover:bg-red-600"
+                     className="absolute top-3 right-3 bg-red-500 text-white p-1.5 rounded-full shadow hover:bg-red-600 transition"
                   >
                     <FaTrash />
                   </button>
