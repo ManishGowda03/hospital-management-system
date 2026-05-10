@@ -187,7 +187,7 @@ const SuperadminDashboard = () => {
             <h1 className="headingText">Superadmin Dashboard</h1>
 
             <p className="text-sm text-gray-500 mt-1">
-              Manage hospitals, doctors, patients and appointments
+              Manage doctors, patients, discharge and appointments details
             </p>
           </div>
 
