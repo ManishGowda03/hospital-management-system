@@ -13,6 +13,7 @@ import globalBackendRoute from "../../config/Config";
 
 const AddTreatment = () => {
   const [allpatients, setAllPatients] = useState([]);
+  const [allPediatrics, setAllPediatrics] = useState([]);
   const [allHospitals, setAllHospitals] = useState([]);
   const [allDoctors, setAllDoctors] = useState([]);
   const navigate = useNavigate();
@@ -30,12 +31,14 @@ const AddTreatment = () => {
   useEffect(() => {
     const fetchAllData = async () => {
       try {
-        const [patientsRes, doctorsRes, hospitalsRes] = await Promise.all([
+        const [patientsRes, pediatricsRes, doctorsRes, hospitalsRes] = await Promise.all([
           axios.get(`${globalBackendRoute}/api/get-all-patients`),
+          axios.get(`${globalBackendRoute}/api/get-all-pediatrics`),
           axios.get(`${globalBackendRoute}/api/view-all-doctors`),
           axios.get(`${globalBackendRoute}/api/view-all-hospitals`),
         ]);
         setAllPatients(patientsRes.data);
+        setAllPediatrics(pediatricsRes.data);
         setAllDoctors(doctorsRes.data);
         setAllHospitals(hospitalsRes.data);
       } catch (error) {
@@ -99,6 +102,10 @@ const AddTreatment = () => {
     </div>
   );
 
+  const isPediatricSelected =
+  treatment.patient_id &&
+  treatment.patient_id.startsWith("pediatric-");
+
   return (
     <div className="bg-white py-10">
       <div className="compactWidth">
@@ -119,26 +126,76 @@ const AddTreatment = () => {
           )}
 
           {/* Patient Dropdown */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
-            <label className="formLabel w-full sm:w-1/3 flex items-center">
-              <FaUserInjured className="text-blue-500" />
-              <span className="ml-2">Patient</span>
-            </label>
-            <select
-              name="patient_id"
-              value={treatment.patient_id}
-              onChange={handleChange}
-              required
-              className="formInput w-full sm:w-2/3"
-            >
-              <option value="">Select patient</option>
-              {allpatients.map((patient) => (
-                <option key={patient._id} value={patient._id}>
-                  {patient.patient_name}
-                </option>
-              ))}
-            </select>
-          </div>
+<div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+  <label className="formLabel w-full sm:w-1/3 flex items-center">
+    <FaUserInjured className="text-blue-500" />
+    <span className="ml-2">Patient</span>
+  </label>
+
+  <select
+    name="patient_id"
+    value={treatment.patient_id}
+    onChange={(e) => {
+      const value = e.target.value;
+
+      // If pediatric selected
+      if (value.startsWith("pediatric-")) {
+        const pediatricId = value.replace("pediatric-", "");
+
+        const selectedPediatric = allPediatrics.find(
+          (p) => p._id === pediatricId
+        );
+
+        setTreatment({
+          ...treatment,
+          patient_id: value,
+
+          // auto select doctor + hospital
+          doctor_id:
+            selectedPediatric?.doctor_id?._id ||
+            selectedPediatric?.doctor_id ||
+            "",
+
+          hospital_id:
+            selectedPediatric?.hospital_id?._id ||
+            selectedPediatric?.hospital_id ||
+            "",
+        });
+      } else {
+        // normal patient
+        setTreatment({
+          ...treatment,
+          patient_id: value,
+        });
+      }
+    }}
+    required
+    className="formInput w-full sm:w-2/3"
+  >
+    <option value="">Select patient</option>
+
+    {/* Normal Patients */}
+    <optgroup label="Patients">
+      {allpatients.map((patient) => (
+        <option key={patient._id} value={patient._id}>
+          {patient.patient_name}
+        </option>
+      ))}
+    </optgroup>
+
+    {/* Pediatrics */}
+    <optgroup label="Pediatrics">
+      {allPediatrics.map((child) => (
+        <option
+          key={child._id}
+          value={`pediatric-${child._id}`}
+        >
+          {child.child_name}
+        </option>
+      ))}
+    </optgroup>
+  </select>
+</div>
 
           {/* Doctor Dropdown */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
@@ -151,7 +208,12 @@ const AddTreatment = () => {
               value={treatment.doctor_id}
               onChange={handleChange}
               required
-              className="formInput w-full sm:w-2/3"
+              disabled={isPediatricSelected}
+  className={`formInput w-full sm:w-2/3 ${
+    isPediatricSelected
+      ? "bg-gray-100 cursor-not-allowed"
+      : ""
+  }`}
             >
               <option value="">Select doctor</option>
               {allDoctors.map((doctor) => (
@@ -173,7 +235,12 @@ const AddTreatment = () => {
               value={treatment.hospital_id}
               onChange={handleChange}
               required
-              className="formInput w-full sm:w-2/3"
+              disabled={isPediatricSelected}
+  className={`formInput w-full sm:w-2/3 ${
+    isPediatricSelected
+      ? "bg-gray-100 cursor-not-allowed"
+      : ""
+  }`}
             >
               <option value="">Select hospital</option>
               {allHospitals.map((hospital) => (
@@ -184,11 +251,22 @@ const AddTreatment = () => {
             </select>
           </div>
 
-          {renderInput(
-            "Description",
-            "description",
-            <FaNotesMedical className="text-indigo-500" />
-          )}
+          <div className="flex flex-col sm:flex-row items-start gap-2">
+  <label className="formLabel w-full sm:w-1/3 flex items-center pt-3">
+    <FaNotesMedical className="text-indigo-500" />
+    <span className="ml-2">Description</span>
+  </label>
+
+  <textarea
+    name="description"
+    value={treatment.description}
+    onChange={handleChange}
+    required
+    rows={4}
+    placeholder="Enter treatment description"
+    className="formInput w-full sm:w-2/3 resize-none py-3"
+  />
+</div>
           {renderInput(
             "Cost",
             "cost",
