@@ -23,6 +23,7 @@ const AddTreatment = () => {
     hospital_id: "",
     doctor_id: "",
     patient_id: "",
+    patient_type: "",
     description: "",
     cost: "",
     treatment_date: "",
@@ -73,6 +74,7 @@ const AddTreatment = () => {
         hospital_id: "",
         doctor_id: "",
         patient_id: "",
+        patient_type: "",
         description: "",
         cost: "",
         treatment_date: "",
@@ -102,9 +104,8 @@ const AddTreatment = () => {
     </div>
   );
 
-  const isPediatricSelected =
-  treatment.patient_id &&
-  treatment.patient_id.startsWith("pediatric-");
+const isPediatricSelected =
+  treatment.patient_type === "pediatric";
 
   return (
     <div className="bg-white py-10">
@@ -136,39 +137,39 @@ const AddTreatment = () => {
     name="patient_id"
     value={treatment.patient_id}
     onChange={(e) => {
-      const value = e.target.value;
+  const value = e.target.value;
 
-      // If pediatric selected
-      if (value.startsWith("pediatric-")) {
-        const pediatricId = value.replace("pediatric-", "");
+  // check if selected item is pediatric
+  const selectedPediatric = allPediatrics.find(
+    (p) => p._id === value
+  );
 
-        const selectedPediatric = allPediatrics.find(
-          (p) => p._id === pediatricId
-        );
+  if (selectedPediatric) {
+    setTreatment({
+      ...treatment,
+      patient_id: value,
+      patient_type: "pediatric",
 
-        setTreatment({
-          ...treatment,
-          patient_id: value,
+      doctor_id:
+        selectedPediatric?.doctor_id?._id ||
+        selectedPediatric?.doctor_id ||
+        "",
 
-          // auto select doctor + hospital
-          doctor_id:
-            selectedPediatric?.doctor_id?._id ||
-            selectedPediatric?.doctor_id ||
-            "",
-
-          hospital_id:
-            selectedPediatric?.hospital_id?._id ||
-            selectedPediatric?.hospital_id ||
-            "",
-        });
-      } else {
-        // normal patient
-        setTreatment({
-          ...treatment,
-          patient_id: value,
-        });
-      }
-    }}
+      hospital_id:
+        selectedPediatric?.hospital_id?._id ||
+        selectedPediatric?.hospital_id ||
+        "",
+    });
+  } else {
+    setTreatment({
+      ...treatment,
+      patient_id: value,
+      patient_type: "patient",
+      doctor_id: "",
+      hospital_id: "",
+    });
+  }
+}}
     required
     className="formInput w-full sm:w-2/3"
   >
@@ -188,7 +189,7 @@ const AddTreatment = () => {
       {allPediatrics.map((child) => (
         <option
           key={child._id}
-          value={`pediatric-${child._id}`}
+          value={child._id}
         >
           {child.child_name}
         </option>
