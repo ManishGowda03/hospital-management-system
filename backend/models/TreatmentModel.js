@@ -6,9 +6,19 @@ const treatmentSchema = new mongoose.Schema({
   treatment_name: { type: String, required: true },
   description: { type: String, required: true },
   cost: { type: Number, required: true, default: 0 },
-  patient_id: { type: mongoose.Schema.Types.ObjectId, ref: "patient", required: true },
-  doctor_id: { type: mongoose.Schema.Types.ObjectId, ref: "doctor", required: true },
-  hospital_id: { type: mongoose.Schema.Types.ObjectId, ref: "hospital", required: true },
+patient_id: {
+  type: mongoose.Schema.Types.ObjectId,
+  required: true,
+  refPath: "patient_type"
+},
+
+patient_type: {
+  type: String,
+  required: true,
+  enum: ["Patient", "Pediatric"]
+},
+  doctor_id: { type: mongoose.Schema.Types.ObjectId, ref: "Doctor", required: true },
+  hospital_id: { type: mongoose.Schema.Types.ObjectId, ref: "Hospital", required: true },
 
   treatment_date: { type: Date, default: Date.now },
 

@@ -9,6 +9,7 @@ const createTreatment = async (req, res) => {
       cost,
       treatment_date,
       patient_id,
+        patient_type,
       doctor_id,
       hospital_id
     } = req.body;
@@ -22,6 +23,7 @@ const createTreatment = async (req, res) => {
       cost,
       treatment_date,
       patient_id,
+        patient_type,
       doctor_id,
       hospital_id
     });
@@ -36,8 +38,11 @@ const createTreatment = async (req, res) => {
 
 const viewAllTreatments = async (req, res) => {
     try {
-        const allTreatments = await TreatmentModel.find();
-        if (!allTreatments) return res.status(404).json({ message: "Treatments not found" });
+const allTreatments = await TreatmentModel.find()
+  .populate("patient_id")
+  .populate("doctor_id")
+  .populate("hospital_id");
+          if (!allTreatments) return res.status(404).json({ message: "Treatments not found" });
         res.status(200).json(allTreatments);
       } catch (err) {
         console.error("Fetch Error:", err.message);
