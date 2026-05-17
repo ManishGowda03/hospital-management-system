@@ -119,7 +119,7 @@ const AllTreatments = () => {
             <div
               className={
                 view === "grid"
-                  ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4"
+? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
                   : view === "card"
                   ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
                   : "flex flex-col gap-3"
@@ -129,7 +129,7 @@ const AllTreatments = () => {
                 <div
                   key={t._id}
                   onClick={() => navigate(`/single-treatment/${t._id}`)}
-                  className={`relative cursor-pointer bg-white shadow rounded-lg p-4 hover:shadow-lg transition ${
+                  className={`relative cursor-pointer bg-white shadow-md rounded-xl p-4 border hover:shadow-lg transition-all duration-300 ${
                     view === "list"
                       ? "flex flex-wrap items-center gap-2 text-sm text-gray-700"
                       : "flex flex-col items-start"
@@ -144,7 +144,7 @@ const AllTreatments = () => {
                       <span>|</span>
                       <span className="truncate max-w-full">
                         <FaUserInjured className="inline mr-1" />
-                        {t.patient_id?.patient_name}
+                        {t.patient_id?.patient_name || t.patient_id?.child_name}
                       </span>
                       <span>|</span>
                       <span className="truncate max-w-full">
@@ -160,29 +160,39 @@ const AllTreatments = () => {
                     </>
                   ) : (
                     <>
-                      <h3 className="subHeadingTextMobile flex items-center gap-2 mb-1 break-words whitespace-normal w-full">
-                        <FaStethoscope className="text-green-500" />{" "}
-                        {t.treatment_name}
-                      </h3>
-                      <p className="paragraphTextMobile flex items-center gap-2 break-words whitespace-normal w-full">
-                        <FaUserInjured /> {t.patient_id?.patient_name}
-                      </p>
-                      <p className="paragraphTextMobile flex items-center gap-2 break-words whitespace-normal w-full">
-                        <FaNotesMedical /> {t.description}
-                      </p>
-                      <p className="paragraphTextMobile flex items-center gap-2 break-words whitespace-normal w-full">
-                        <FaMoneyBillWave /> ₹{t.cost}
-                      </p>
-                      <p className="paragraphTextMobile flex items-center gap-2 break-words whitespace-normal w-full">
-                        <FaMoneyBillWave /> {t.treatment_date}
-                      </p>
-                    </>
+  <h3 className="text-xl font-semibold text-gray-800 flex items-center gap-2 mb-2 break-words w-full leading-snug">
+    <FaStethoscope className="text-green-500 text-lg" />
+    {t.treatment_name}
+  </h3>
+
+  <p className="text-sm text-gray-600 flex items-center gap-2 mb-2 w-full">
+    <FaUserInjured className="text-gray-500" />
+    {t.patient_id?.patient_name ||
+      t.patient_id?.child_name ||
+      "Patient"}
+  </p>
+
+  <p className="text-sm text-gray-600 flex items-start gap-2 mb-3 w-full leading-relaxed">
+    <FaNotesMedical className="text-gray-500 mt-1" />
+    {t.description?.split(" ").slice(0, 7).join(" ")}...
+  </p>
+
+  <div className="flex justify-between items-center w-full mt-auto">
+    <p className="text-sm text-gray-700 flex items-center gap-2">
+      <FaMoneyBillWave className="text-gray-500" />
+      ₹{t.cost}
+    </p>
+
+    <p className="text-xs text-gray-400">
+      {new Date(t.treatment_date).toLocaleDateString()}
+    </p>
+  </div>
+</>
                   )}
 
                   <button
                     onClick={(e) => handleDeleteTreatment(t._id, e)}
-                    className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full shadow hover:bg-red-600"
-                  >
+className="absolute top-3 right-3 bg-red-500 text-white p-1.5 rounded-full shadow hover:bg-red-600 transition"                  >
                     <FaTrash />
                   </button>
                 </div>

@@ -105,7 +105,7 @@ const AddTreatment = () => {
   );
 
 const isPediatricSelected =
-  treatment.patient_type === "pediatric";
+  treatment.patient_type === "Pediatric";
 
   return (
     <div className="bg-white py-10">
@@ -148,7 +148,7 @@ const isPediatricSelected =
     setTreatment({
       ...treatment,
       patient_id: value,
-      patient_type: "pediatric",
+      patient_type: "Pediatric",
 
       doctor_id:
         selectedPediatric?.doctor_id?._id ||
@@ -164,7 +164,7 @@ const isPediatricSelected =
     setTreatment({
       ...treatment,
       patient_id: value,
-      patient_type: "patient",
+      patient_type: "Patient",
       doctor_id: "",
       hospital_id: "",
     });
