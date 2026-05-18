@@ -52,7 +52,10 @@ const allTreatments = await TreatmentModel.find()
 
 const viewTreatmentById = async (req,res)=>{
     try{
-        const singleTreatment = await TreatmentModel.findById(req.params.id);
+        const singleTreatment = await TreatmentModel.findById(req.params.id)
+          .populate("patient_id")
+  .populate("doctor_id")
+  .populate("hospital_id");
         if (!singleTreatment) return res.status(404).json({ message: "Treatment Details not found" });
         res.status(200).json(singleTreatment)
     }catch (err) {
