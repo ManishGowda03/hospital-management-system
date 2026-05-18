@@ -10,6 +10,8 @@ import {
   FaUserInjured,
   FaNotesMedical,
   FaMoneyBillWave,
+  FaUserMd,
+FaHospital,
 } from "react-icons/fa";
 import { toast } from "react-toastify";
 import globalBackendRoute from "../../config/Config";
@@ -147,6 +149,16 @@ const AllTreatments = () => {
                         {t.patient_id?.patient_name || t.patient_id?.child_name}
                       </span>
                       <span>|</span>
+                       <span className="truncate max-w-full">
+    <FaUserMd className="inline mr-1" />
+    {t.doctor_id?.doctor_name}
+  </span>
+  <span>|</span>
+  <span className="truncate max-w-full">
+    <FaHospital className="inline mr-1" />
+    {t.hospital_id?.hospital_name}
+  </span>
+  <span>|</span>
                       <span className="truncate max-w-full">
                         <FaNotesMedical className="inline mr-1" />
                         {t.description}
@@ -171,6 +183,16 @@ const AllTreatments = () => {
       t.patient_id?.child_name ||
       "Patient"}
   </p>
+
+  <p className="text-sm text-gray-600 flex items-center gap-2 mb-2 w-full">
+  <FaUserMd className="text-gray-500" />
+  {t.doctor_id?.doctor_name || "Doctor"}
+</p>
+
+<p className="text-sm text-gray-600 flex items-center gap-2 mb-2 w-full">
+  <FaHospital className="text-gray-500" />
+  {t.hospital_id?.hospital_name || "Hospital"}
+</p>
 
   <p className="text-sm text-gray-600 flex items-start gap-2 mb-3 w-full leading-relaxed">
     <FaNotesMedical className="text-gray-500 mt-1" />
