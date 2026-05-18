@@ -6,6 +6,8 @@ import {
   FaNotesMedical,
   FaMoneyBillWave,
   FaCalendarAlt,
+  FaUserMd,
+FaHospital,
 } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 import { motion } from "framer-motion";
@@ -54,8 +56,20 @@ export default function SingleTreatment() {
           <DetailField
             icon={<FaUserInjured className="text-blue-600" />}
             label="Patient Name"
-            value={treatment.patient_id}
+            value={treatment.patient_id?.patient_name ||
+    treatment.patient_id?.child_name}
           />
+          <DetailField
+  icon={<FaUserMd className="text-teal-600" />}
+  label="Doctor Name"
+  value={treatment.doctor_id?.doctor_name}
+/>
+
+<DetailField
+  icon={<FaHospital className="text-red-500" />}
+  label="Hospital Name"
+  value={treatment.hospital_id?.hospital_name}
+/>
           <DetailField
             icon={<FaNotesMedical className="text-indigo-600" />}
             label="Diagnosis"

@@ -6,6 +6,8 @@ import {
   FaNotesMedical,
   FaMoneyBillWave,
   FaCalendarAlt,
+  FaUserMd,
+FaHospital,
 } from "react-icons/fa";
 import { MdSave } from "react-icons/md";
 import { useParams, useNavigate, Link } from "react-router-dom";
@@ -27,7 +29,31 @@ export default function UpdateTreatment() {
   useEffect(() => {
     axios
       .get(`${globalBackendRoute}/api/view-treatment-by-id/${id}`)
-      .then((res) => setFormData(res.data))
+      .then((res) => {
+  const data = res.data;
+
+  setFormData({
+    treatment_name: data.treatment_name || "",
+
+    patient_name:
+      data.patient_id?.patient_name ||
+      data.patient_id?.child_name ||
+      "",
+
+    doctor_name:
+      data.doctor_id?.doctor_name || "",
+
+    hospital_name:
+      data.hospital_id?.hospital_name || "",
+
+    description: data.description || "",
+
+    cost: data.cost || "",
+
+    treatment_date:
+      data.treatment_date?.slice(0, 10) || "",
+  });
+})
       .catch((err) => console.error("Error fetching treatment:", err));
   }, [id]);
 
@@ -40,9 +66,14 @@ export default function UpdateTreatment() {
     e.preventDefault();
     try {
       await axios.put(
-        `${globalBackendRoute}/api/update-treatment/${id}`,
-        formData
-      );
+  `${globalBackendRoute}/api/update-treatment/${id}`,
+  {
+    treatment_name: formData.treatment_name,
+    description: formData.description,
+    cost: formData.cost,
+    treatment_date: formData.treatment_date,
+  }
+);
       alert("Treatment record updated successfully!");
       navigate(`/single-treatment/${id}`);
     } catch (err) {
@@ -68,6 +99,23 @@ export default function UpdateTreatment() {
     </div>
   );
 
+  const renderReadOnlyField = (label, value, icon) => (
+  <div className="py-3 sm:grid sm:grid-cols-3 sm:gap-4 px-2 sm:px-4">
+    <dt className="flex items-center text-sm font-medium text-gray-700 gap-2">
+      {icon} {label}
+    </dt>
+
+    <dd className="mt-1 sm:col-span-2 sm:mt-0">
+      <input
+        type="text"
+        value={value || ""}
+        readOnly
+        className="w-full text-sm border-b border-gray-200 bg-gray-50 text-gray-600 cursor-not-allowed focus:outline-none"
+      />
+    </dd>
+  </div>
+);
+
   return (
     <div className="containerWidth my-6">
       <form onSubmit={handleSubmit} className="w-full">
@@ -85,11 +133,23 @@ export default function UpdateTreatment() {
           "treatment_name",
           <FaStethoscope className="text-green-600" />
         )}
-        {renderField(
-          "Patient Name",
-          "patient_id",
-          <FaUserInjured className="text-blue-600" />
-        )}
+        {renderReadOnlyField(
+  "Patient Name",
+  formData.patient_name,
+  <FaUserInjured className="text-blue-600" />
+)}
+
+{renderReadOnlyField(
+  "Doctor Name",
+  formData.doctor_name,
+  <FaUserMd className="text-teal-600" />
+)}
+
+{renderReadOnlyField(
+  "Hospital Name",
+  formData.hospital_name,
+  <FaHospital className="text-red-500" />
+)}
         {renderField(
           "Diagnosis",
           "description",
