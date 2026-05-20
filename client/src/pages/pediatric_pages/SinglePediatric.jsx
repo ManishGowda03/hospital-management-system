@@ -73,15 +73,16 @@ export default function SinglePediatric() {
             value={`Ward ${pediatric.ward_number}`}
           />
           <DetailField
-            icon={<FaHospital className="text-red-600" />}
-            label="Hospital ID"
-            value={pediatric.hospital_id}
-          />
-          <DetailField
-            icon={<FaUserMd className="text-green-600" />}
-            label="Doctor ID"
-            value={pediatric.doctor_id}
-          />
+  icon={<FaHospital className="text-red-600" />}
+  label="Hospital Name"
+  value={pediatric.hospital_id?.hospital_name}
+/>
+
+<DetailField
+  icon={<FaUserMd className="text-green-600" />}
+  label="Doctor Name"
+  value={pediatric.doctor_id?.doctor_name}
+/>
           <DetailField
             icon={<FaUser className="text-indigo-600" />}
             label="Mother Name"

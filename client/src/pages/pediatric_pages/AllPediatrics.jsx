@@ -11,6 +11,8 @@ import {
   FaPhone,
   FaMapMarkerAlt,
   FaVenusMars,
+  FaHospital,
+FaUserMd,
 } from "react-icons/fa";
 import { toast } from "react-toastify";
 import globalBackendRoute from "../../config/Config";
@@ -140,20 +142,29 @@ const AllPediatrics = () => {
                   onClick={() => handleNavigate(p._id)}
                   className="relative cursor-pointer bg-white shadow rounded-xl p-4 border hover:shadow-lg transition-all duration-300"
                 >
-                  <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2 mb-3">
+                  <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2 mb-2">
                     <FaBaby className="text-pink-500" /> {p.child_name}
                   </h3>
-                  <p className="text-sm text-gray-600 flex items-start gap-2 mb-1">
+                  <p className="text-sm text-gray-600 flex items-start gap-2 mb-2">
                     <FaVenusMars /> {p.gender}
                   </p>
-                  <p className="text-sm text-gray-600 flex items-start gap-2 mb-1">
+                  <p className="text-sm text-gray-600 flex items-start gap-2 mb-2">
                     <FaUser className="text-indigo-600" /> {p.mother_name} &{" "}
                     {p.father_name}
                   </p>
-                  <p className="text-sm text-gray-600 flex items-start gap-2 mb-1">
+                  <p className="text-sm text-gray-600 flex items-start gap-2 mb-2">
+  <FaHospital className="text-red-500" />
+  {p.hospital_id?.hospital_name}
+</p>
+
+<p className="text-sm text-gray-600 flex items-start gap-2 mb-2">
+  <FaUserMd className="text-green-600" />
+  {p.doctor_id?.doctor_name}
+</p>
+                  <p className="text-sm text-gray-600 flex items-start gap-2 mb-2">
                     <FaPhone /> {p.parent_contact}
                   </p>
-                  <p className="text-sm text-gray-600 flex items-start gap-2 mb-1">
+                  <p className="text-sm text-gray-600 flex items-start gap-2 mb-2">
                     <FaMapMarkerAlt /> Ward {p.ward_number}
                   </p>
                   <button
