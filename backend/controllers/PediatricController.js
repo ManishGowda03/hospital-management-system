@@ -43,7 +43,9 @@ const addPediatric = async (req, res) => {
 // Get all pediatric records
 const getAllPediatrics = async (req, res) => {
   try {
-    const all = await PediatricModel.find();
+    const all = await PediatricModel.find()
+    .populate("doctor_id")
+  .populate("hospital_id");
     res.status(200).json(all);
   } catch (error) {
     console.error("Fetch all pediatrics error:", error.message);
@@ -54,7 +56,9 @@ const getAllPediatrics = async (req, res) => {
 // Get single pediatric record by ID
 const getPediatricById = async (req, res) => {
   try {
-    const record = await PediatricModel.findById(req.params.id);
+    const record = await PediatricModel.findById(req.params.id)
+    .populate("hospital_id")
+  .populate("doctor_id");;
     if (!record) return res.status(404).json({ message: "Record not found" });
     res.status(200).json(record);
   } catch (error) {
