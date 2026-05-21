@@ -3,10 +3,16 @@ const mongoose = require("mongoose");
 const dischargeDetailsSchema = new mongoose.Schema({
   patient_name: { type: String, required: true },
   patient_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
+  type: mongoose.Schema.Types.ObjectId,
+  required: true,
+  refPath: "patient_type",
+},
+
+patient_type: {
+  type: String,
+  required: true,
+  enum: ["Patient", "Pediatric"],
+},
   hospital_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Hospital",

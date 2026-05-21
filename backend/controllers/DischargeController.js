@@ -2,12 +2,14 @@
 
 const DischargeModel = require("../models/DischargeModel");
 const PatientModel = require("../models/PatientModel");
+const PediatricModel = require("../models/PediatricModel");
 
 // ✅ Create a discharge record
 const createDischargeDetails = async (req, res) => {
   try {
     const {
       patient_id,
+      patient_type,
       hospital_id,
       discharge_date,
       reason_for_discharge,
@@ -15,14 +17,23 @@ const createDischargeDetails = async (req, res) => {
       doctor_name,
     } = req.body;
 
-    const patient = await PatientModel.findById(patient_id);
-    if (!patient) {
-      return res.status(404).json({ message: "Patient not found" });
-    }
+    let patient;
+
+if (patient_type === "Pediatric") {
+  patient = await PediatricModel.findById(patient_id);
+} else {
+  patient = await PatientModel.findById(patient_id);
+}
+
+if (!patient) {
+  return res.status(404).json({ message: "Patient not found" });
+}
 
     const newDischarge = await DischargeModel.create({
-      patient_name: patient.patient_name, // ✅ derived
+patient_name:
+  patient.patient_name || patient.child_name,
       patient_id,
+      patient_type,
       hospital_id,
       discharge_date,
       reason_for_discharge,
