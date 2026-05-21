@@ -14,9 +14,11 @@ import globalBackendRoute from "../../config/Config";
 
 const AddDischarge = () => {
   const [allPatients, setAllPatients] = useState([]);
+  const [allPediatrics, setAllPediatrics] = useState([]);
+  const [allTreatments, setAllTreatments] = useState([]);
   const [allHospitals, setAllHospitals] = useState([]);
   const [allDoctors, setAllDoctors] = useState([]);
-  const navigate = useNavigate();
+  const navigate = useNavigate( );
 
   const [discharge, setDischarge] = useState({
     patient_name: "",
@@ -31,12 +33,16 @@ const AddDischarge = () => {
   useEffect(() => {
     const fetchAllData = async () => {
       try {
-        const [patientsRes, hospitalsRes, doctorsRes] = await Promise.all([
+        const [patientsRes, pediatricsRes, treatmentsRes, hospitalsRes, doctorsRes] = await Promise.all([
           axios.get(`${globalBackendRoute}/api/get-all-patients`),
+              axios.get(`${globalBackendRoute}/api/get-all-pediatrics`),
+              axios.get(`${globalBackendRoute}/api/view-all-treatments`),
           axios.get(`${globalBackendRoute}/api/view-all-hospitals`),
           axios.get(`${globalBackendRoute}/api/view-all-doctors`),
         ]);
         setAllPatients(patientsRes.data);
+        setAllPediatrics(pediatricsRes.data);
+        setAllTreatments(treatmentsRes.data);
         setAllHospitals(hospitalsRes.data);
         setAllDoctors(doctorsRes.data);
       } catch (error) {
@@ -50,6 +56,53 @@ const AddDischarge = () => {
   const handleChange = (e) => {
     setDischarge({ ...discharge, [e.target.name]: e.target.value });
   };
+
+  const handlePatientChange = (e) => {
+  const value = e.target.value;
+
+  // Pediatric selected
+  if (value.startsWith("pediatric-")) {
+    const pediatricId = value.replace("pediatric-", "");
+
+    const selectedPediatric = allPediatrics.find(
+      (p) => p._id === pediatricId
+    );
+
+    if (selectedPediatric) {
+      setDischarge({
+        ...discharge,
+patient_id: pediatricId,
+patient_type: "Pediatric",
+        hospital_id: selectedPediatric.hospital_id?._id || "",
+        doctor_name: selectedPediatric.doctor_id?.doctor_name || "",
+      });
+    }
+  }
+
+  // Normal patient selected
+  else {
+  const selectedTreatment = allTreatments.find(
+    (t) =>
+      t.patient_id?._id === value ||
+      t.patient_id === value
+  );
+
+  if (selectedTreatment) {
+    setDischarge({
+      ...discharge,
+      patient_id: value,
+      patient_type: "Patient",
+      hospital_id:
+        selectedTreatment.hospital_id?._id ||
+        selectedTreatment.hospital_id ||
+        "",
+      doctor_name:
+        selectedTreatment.doctor_id?.doctor_name ||
+        "",
+    });
+  }
+}
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -98,6 +151,10 @@ const AddDischarge = () => {
     </div>
   );
 
+  const isPediatricSelected =
+  discharge.patient_id &&
+  discharge.patient_id.startsWith("pediatric-");
+
   return (
     <div className="bg-white py-10">
       <div className="compactWidth">
@@ -118,16 +175,53 @@ const AddDischarge = () => {
               <span className="ml-2">Patient</span>
             </label>
             <select
-              name="patient_id"
-              value={discharge.patient_id}
+  name="patient_id"
+value={
+  discharge.patient_type === "Pediatric"
+    ? `pediatric-${discharge.patient_id}`
+    : discharge.patient_id
+}  onChange={handlePatientChange}
+  required
+  className="formInput w-full sm:w-2/3"
+>
+  <option value="">Select patient</option>
+
+  <optgroup label="Patients">
+    {allPatients.map((p) => (
+      <option key={p._id} value={p._id}>
+        {p.patient_name}
+      </option>
+    ))}
+  </optgroup>
+
+  <optgroup label="Pediatrics">
+    {allPediatrics.map((p) => (
+      <option key={`pediatric-${p._id}`} value={`pediatric-${p._id}`}>
+        {p.child_name}
+      </option>
+    ))}
+  </optgroup>
+</select>
+          </div>
+
+          {/* Doctor Dropdown */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+            <label className="formLabel w-full sm:w-1/3 flex items-center">
+              <FaUserMd className="text-green-500" />
+              <span className="ml-2">Doctor</span>
+            </label>
+            <select
+              name="doctor_name"
+              value={discharge.doctor_name}
               onChange={handleChange}
               required
               className="formInput w-full sm:w-2/3"
+              disabled={isPediatricSelected}
             >
-              <option value="">Select patient</option>
-              {allPatients.map((patient) => (
-                <option key={patient._id} value={patient._id}>
-                  {patient.patient_name}
+              <option value="">Select doctor</option>
+              {allDoctors.map((doc) => (
+                <option key={doc._id} value={doc.doctor_name}>
+                  {doc.doctor_name}
                 </option>
               ))}
             </select>
@@ -145,6 +239,7 @@ const AddDischarge = () => {
               onChange={handleChange}
               required
               className="formInput w-full sm:w-2/3"
+              disabled={isPediatricSelected}
             >
               <option value="">Select hospital</option>
               {allHospitals.map((hospital) => (
@@ -171,33 +266,22 @@ const AddDischarge = () => {
           )}
 
           {/* Treatment Summary */}
-          {renderInput(
-            "Treatment Summary",
-            "treatment_summary",
-            <FaFileMedicalAlt className="text-yellow-500" />
-          )}
+<div className="flex flex-col sm:flex-row items-start gap-2">
+  <label className="formLabel w-full sm:w-1/3 flex items-center">
+    <FaFileMedicalAlt className="text-yellow-500" />
+    <span className="ml-2">Treatment Summary</span>
+  </label>
 
-          {/* Doctor Dropdown (was input before) */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
-            <label className="formLabel w-full sm:w-1/3 flex items-center">
-              <FaUserMd className="text-green-500" />
-              <span className="ml-2">Doctor</span>
-            </label>
-            <select
-              name="doctor_name"
-              value={discharge.doctor_name}
-              onChange={handleChange}
-              required
-              className="formInput w-full sm:w-2/3"
-            >
-              <option value="">Select doctor</option>
-              {allDoctors.map((doc) => (
-                <option key={doc._id} value={doc.doctor_name}>
-                  {doc.doctor_name}
-                </option>
-              ))}
-            </select>
-          </div>
+  <textarea
+    name="treatment_summary"
+    value={discharge.treatment_summary}
+    onChange={handleChange}
+    rows="4"
+    className="formInput w-full sm:w-2/3 resize-none"
+    placeholder="Enter treatment summary"
+    required
+  />
+</div>
 
           <div className="pt-4 flex justify-end">
             <button

@@ -185,17 +185,17 @@ const AllTreatments = () => {
   </p>
 
   <p className="text-sm text-gray-600 flex items-center gap-2 mb-2 w-full">
-  <FaUserMd className="text-gray-500" />
+  <FaUserMd className="text-blue-500" />
   {t.doctor_id?.doctor_name || "Doctor"}
 </p>
 
 <p className="text-sm text-gray-600 flex items-center gap-2 mb-2 w-full">
-  <FaHospital className="text-gray-500" />
+  <FaHospital className="text-green-500" />
   {t.hospital_id?.hospital_name || "Hospital"}
 </p>
 
   <p className="text-sm text-gray-600 flex items-start gap-2 mb-3 w-full leading-relaxed">
-    <FaNotesMedical className="text-gray-500 mt-1" />
+    <FaNotesMedical className="text-blue-500 mt-1" />
     {t.description?.split(" ").slice(0, 7).join(" ")}...
   </p>
 
