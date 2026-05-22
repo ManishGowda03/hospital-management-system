@@ -113,8 +113,8 @@ const AllDischarges = () => {
             <div
               className={
                 view === "grid"
-                  ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4"
-                  : view === "card"
+  ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"            
+        : view === "card"
                   ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
                   : "space-y-4"
               }
@@ -123,30 +123,87 @@ const AllDischarges = () => {
                 <div
                   key={d._id}
                   onClick={() => navigate(`/single-discharge/${d._id}`)}
-                  className="relative cursor-pointer bg-white shadow rounded-lg p-4 hover:shadow-lg transition flex flex-col items-start"
+                  className={`relative cursor-pointer bg-white shadow-md rounded-xl p-4 border hover:shadow-lg transition-all duration-300 ${
+                    view === "list"
+      ? "flex flex-wrap items-center gap-2 text-sm text-gray-700"
+      : "flex flex-col items-start"
+  }`}
                 >
-                  <h3 className="subHeadingTextMobile flex items-center gap-2 mb-1">
-                    <FaUser className="text-blue-500" /> {d.patient_name}
-                  </h3>
-                  <p className="paragraphTextMobile flex items-center gap-2">
-                    <FaUserMd /> {d.doctor_name}
-                  </p>
-                  <p className="paragraphTextMobile flex items-center gap-2">
-                    <FaHospital /> {d.hospital_id?.hospital_name || "N/A"}
-                  </p>
-                  <p className="paragraphTextMobile flex items-center gap-2">
-                    <FaCalendarAlt />{" "}
-                    {new Date(d.discharge_date).toLocaleDateString()}
-                  </p>
-                  <p className="paragraphTextMobile flex items-center gap-2">
-                    <FaClipboardList /> {d.reason_for_discharge}
-                  </p>
-                  <button
-                    onClick={(e) => handleDelete(d._id, e)}
-                    className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full shadow hover:bg-red-600"
-                  >
-                    <FaTrash />
-                  </button>
+                  {view === "list" ? (
+    <>
+      <span className="text-blue-600 font-medium truncate max-w-full">
+        <FaUser className="inline mr-1" />
+        {d.patient_name}
+      </span>
+
+      <span>|</span>
+
+      <span className="truncate max-w-full">
+        <FaUserMd className="inline mr-1" />
+        {d.doctor_name}
+      </span>
+
+      <span>|</span>
+
+      <span className="truncate max-w-full">
+        <FaHospital className="inline mr-1" />
+        {d.hospital_id?.hospital_name}
+      </span>
+
+      <span>|</span>
+
+      <span className="truncate max-w-full">
+        <FaClipboardList className="inline mr-1" />
+        {d.reason_for_discharge}
+      </span>
+
+      <span>|</span>
+
+      <span>
+        <FaCalendarAlt className="inline mr-1" />
+        {new Date(d.discharge_date).toLocaleDateString()}
+      </span>
+    </>
+  ) : (
+    <>
+                   <h3 className="text-xl font-semibold text-gray-800 flex items-center gap-2 mb-2 break-words w-full leading-snug">
+        <FaUser className="text-blue-500 text-lg" />
+        {d.patient_name}
+      </h3>
+                   <p className="text-sm text-gray-600 flex items-center gap-2 mb-2 w-full">
+        <FaUserMd className="text-blue-500" />
+        {d.doctor_name}
+      </p>
+
+      <p className="text-sm text-gray-600 flex items-center gap-2 mb-2 w-full">
+        <FaHospital className="text-green-500" />
+        {d.hospital_id?.hospital_name}
+      </p>
+
+      <p className="text-sm text-gray-600 flex items-start gap-2 mb-3 w-full leading-relaxed">
+        <FaClipboardList className="text-indigo-500 mt-1" />
+        {d.reason_for_discharge
+          ?.split(" ")
+          .slice(0, 7)
+          .join(" ")}
+        ...
+      </p>
+
+      <div className="flex justify-between items-center w-full mt-auto">
+        <p className="text-xs text-gray-400 flex items-center gap-1">
+          <FaCalendarAlt />
+          {new Date(d.discharge_date).toLocaleDateString()}
+        </p>
+      </div>
+    </>
+  )}
+
+  <button
+    onClick={(e) => handleDelete(d._id, e)}
+    className="absolute top-3 right-3 bg-red-500 text-white p-1.5 rounded-full shadow hover:bg-red-600 transition"
+  >
+    <FaTrash />
+  </button>
                 </div>
               ))}
             </div>
