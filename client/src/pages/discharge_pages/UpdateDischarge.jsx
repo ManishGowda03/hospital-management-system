@@ -26,7 +26,6 @@ export default function UpdateDischarge() {
   });
 
   const [allHospitals, setAllHospitals] = useState([]);
-  const [allPatients, setAllPatients] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,7 +33,6 @@ export default function UpdateDischarge() {
         const [res, hospitalsRes, patientsRes] = await Promise.all([
           axios.get(`${globalBackendRoute}/api/view-discharge-by-id/${id}`),
           axios.get(`${globalBackendRoute}/api/view-all-hospitals`),
-          axios.get(`${globalBackendRoute}/api/get-all-patients`),
         ]);
 
         const data = res.data;
@@ -43,10 +41,11 @@ export default function UpdateDischarge() {
           ...data,
           hospital_id: data.hospital_id?._id || data.hospital_id,
           patient_id: data.patient_id?._id || data.patient_id,
+          hospital_name:
+  data.hospital_id?.hospital_name || "",
         });
 
         setAllHospitals(hospitalsRes.data);
-        setAllPatients(patientsRes.data);
       } catch (err) {
         console.error("Fetch error:", err.message);
       }
@@ -93,38 +92,48 @@ export default function UpdateDischarge() {
           </Link>
         </div>
 
-        {renderField("Patient Name", "patient_name", <FaUser />)}
+        {renderField(
+  "Patient Name",
+  "patient_name",
+  <FaUser className="text-blue-600" />,
+  "text",
+  true
+)}
 
-        <SelectField
-          label="Patient"
-          name="patient_id"
-          value={formData.patient_id}
-          options={allPatients}
-          labelKey="patient_name"
-          onChange={handleChange}
-          icon={<FaUser />}
-        />
-
-        {renderField("Doctor", "doctor_name", <FaUserMd />)}
-
-        <SelectField
-          label="Hospital"
-          name="hospital_id"
-          value={formData.hospital_id}
-          options={allHospitals}
-          labelKey="hospital_name"
-          onChange={handleChange}
-          icon={<FaHospital />}
-        />
+{renderField(
+  "Doctor",
+  "doctor_name",
+  <FaUserMd className="text-teal-600" />,
+  "text",
+  true
+)}
 
         {renderField(
-          "Discharge Date",
-          "discharge_date",
-          <FaCalendarAlt />,
-          "date"
-        )}
-        {renderField("Reason", "reason_for_discharge", <FaClipboardList />)}
-        {renderField("Summary", "treatment_summary", <FaClipboardList />)}
+  "Hospital",
+  "hospital_name",
+  <FaHospital className="text-red-500" />,
+  "text",
+  true
+)}
+
+        {renderField(
+  "Discharge Date",
+  "discharge_date",
+  <FaCalendarAlt className="text-purple-600" />,
+  "date"
+)}
+
+{renderField(
+  "Reason",
+  "reason_for_discharge",
+  <FaClipboardList className="text-indigo-600" />
+)}
+
+{renderField(
+  "Summary",
+  "treatment_summary",
+  <FaClipboardList className="text-yellow-600" />
+)}
 
         <div className="text-center mt-6">
           <button
@@ -138,7 +147,13 @@ export default function UpdateDischarge() {
     </div>
   );
 
-  function renderField(label, name, icon, type = "text") {
+function renderField(
+  label,
+  name,
+  icon,
+  type = "text",
+  readOnly = false
+) {
     return (
       <div className="py-3 sm:grid sm:grid-cols-3 sm:gap-4 px-2 sm:px-4">
         <dt className="flex items-center text-sm font-medium text-gray-700 gap-2">
@@ -150,7 +165,10 @@ export default function UpdateDischarge() {
             name={name}
             value={formData[name] || ""}
             onChange={handleChange}
-            className="w-full bg-transparent border-b border-gray-300 pb-1 focus:outline-none text-sm text-gray-900"
+            readOnly={readOnly}
+className={`w-full bg-transparent border-b border-gray-300 pb-1 focus:outline-none text-sm text-gray-900 ${
+  readOnly ? "cursor-not-allowed text-gray-600" : ""
+}`}
           />
         </dd>
       </div>

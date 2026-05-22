@@ -51,42 +51,46 @@ export default function SingleDischarge() {
         </div>
 
         <div className="border-t border-gray-200 divide-y divide-gray-100">
-          <DetailField
-            icon={<FaUser />}
-            label="Patient"
-            value={record.patient_name}
-          />
-          <DetailField
-            icon={<FaUserMd />}
-            label="Doctor"
-            value={record.doctor_name}
-          />
-          <DetailField
-            icon={<FaHospital />}
-            label="Hospital"
-            value={
-              typeof record.hospital_id === "object"
-                ? record.hospital_id?.hospital_name
-                : record.hospital_id
-            }
-          />
+  <DetailField
+    icon={<FaUser className="text-blue-600" />}
+    label="Patient"
+    value={record.patient_name}
+  />
 
-          <DetailField
-            icon={<FaCalendarAlt />}
-            label="Discharge Date"
-            value={new Date(record.discharge_date).toLocaleDateString()}
-          />
-          <DetailField
-            icon={<FaClipboardList />}
-            label="Reason"
-            value={record.reason_for_discharge}
-          />
-          <DetailField
-            icon={<FaClipboardList />}
-            label="Summary"
-            value={record.treatment_summary}
-          />
-        </div>
+  <DetailField
+    icon={<FaUserMd className="text-teal-600" />}
+    label="Doctor"
+    value={record.doctor_name}
+  />
+
+  <DetailField
+    icon={<FaHospital className="text-red-500" />}
+    label="Hospital"
+    value={
+      typeof record.hospital_id === "object"
+        ? record.hospital_id?.hospital_name
+        : record.hospital_id
+    }
+  />
+
+  <DetailField
+    icon={<FaCalendarAlt className="text-purple-600" />}
+    label="Discharge Date"
+    value={new Date(record.discharge_date).toLocaleDateString()}
+  />
+
+  <DetailField
+    icon={<FaClipboardList className="text-indigo-600" />}
+    label="Reason"
+    value={record.reason_for_discharge}
+  />
+
+  <DetailField
+    icon={<FaClipboardList className="text-yellow-600" />}
+    label="Summary"
+    value={record.treatment_summary}
+  />
+</div>
 
         <div className="mt-6 text-center">
           <button
