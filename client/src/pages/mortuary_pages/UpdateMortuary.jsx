@@ -83,14 +83,21 @@ export default function UpdateMortuary() {
           label="Deceased Name"
           name="deceased_name"
           value={formData.deceased_name}
-          onChange={handleChange}
+          readOnly
+        />
+         <EditableField
+          icon={<FaHospital />}
+          label="Hospital"
+          name="hospital"
+          value={formData.hospital_id?.hospital_name}
+          readOnly
         />
         <EditableField
-          icon={<FaVenusMars />}
-          label="Gender"
-          name="gender"
-          value={formData.gender}
-          onChange={handleChange}
+          icon={<FaUserMd />}
+          label="Doctor"
+          name="doctor"
+          value={formData.doctor_id?.doctor_name}
+readOnly
         />
         <EditableField
           icon={<FaCross />}
@@ -123,13 +130,6 @@ export default function UpdateMortuary() {
           onChange={handleChange}
         />
         <EditableField
-          icon={<FaMapMarkerAlt />}
-          label="Ward Number"
-          name="ward_number"
-          value={formData.ward_number}
-          onChange={handleChange}
-        />
-        <EditableField
           icon={<FaUser />}
           label="Body Received By"
           name="body_received_by"
@@ -143,20 +143,7 @@ export default function UpdateMortuary() {
           value={formData.relation_to_deceased}
           onChange={handleChange}
         />
-        <EditableField
-          icon={<FaHospital />}
-          label="Hospital ID"
-          name="hospital_id"
-          value={formData.hospital_id?.hospital_name}
-          onChange={handleChange}
-        />
-        <EditableField
-          icon={<FaUserMd />}
-          label="Doctor ID"
-          name="doctor_id"
-          value={formData.doctor_id?.doctor_name}
-          onChange={handleChange}
-        />
+       
 
         <div className="mt-6 text-center">
           <button
@@ -171,12 +158,21 @@ export default function UpdateMortuary() {
   );
 }
 
-function EditableField({ icon, label, name, value, onChange, type = "text" }) {
+function EditableField({
+  icon,
+  label,
+  name,
+  value,
+  onChange,
+  type = "text",
+  readOnly = false,
+}) {
   return (
     <div className="py-3 sm:grid sm:grid-cols-3 sm:gap-4 px-2 sm:px-4">
       <dt className="flex items-center text-sm font-medium text-gray-700 gap-2">
         {icon} {label}
       </dt>
+
       <dd className="mt-1 sm:col-span-2 sm:mt-0">
         <div className="text-sm text-gray-900 border-b border-gray-300 pb-1">
           <input
@@ -184,7 +180,10 @@ function EditableField({ icon, label, name, value, onChange, type = "text" }) {
             name={name}
             value={value || ""}
             onChange={onChange}
-            className="w-full bg-transparent focus:outline-none"
+            readOnly={readOnly}
+            className={`w-full bg-transparent focus:outline-none ${
+              readOnly ? "cursor-not-allowed text-gray-500" : ""
+            }`}
           />
         </div>
       </dd>

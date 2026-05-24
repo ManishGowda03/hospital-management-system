@@ -88,11 +88,6 @@ export default function SingleMortuary() {
             value={record.contact_number}
           />
           <DetailField
-            icon={<FaMapMarkerAlt />}
-            label="Ward Number"
-            value={record.ward_number || "N/A"}
-          />
-          <DetailField
             icon={<FaUser />}
             label="Body Received By"
             value={record.body_received_by}

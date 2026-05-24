@@ -136,24 +136,40 @@ const AllMortuaries = () => {
                 <div
                   key={r._id}
                   onClick={() => handleNavigate(r._id)}
-                  className="relative cursor-pointer flex flex-col items-start bg-white shadow rounded-lg p-4 hover:shadow-lg transition"
+                  className={`relative cursor-pointer bg-white shadow-md rounded-xl p-4 border hover:shadow-lg transition-all duration-300 ${
+  view === "list"
+    ? "flex flex-wrap items-center gap-2 text-sm text-gray-700"
+    : "flex flex-col items-start"
+}`}
                 >
-                  <h3 className="subHeadingTextMobile flex items-center gap-2 mb-1">
-                    <FaUser className="text-blue-500" /> {r.deceased_name}
-                  </h3>
-                  <p className="paragraphTextMobile flex items-center gap-2">
-                    <FaVenusMars /> {r.gender}, Age: {r.age}
-                  </p>
-                  <p className="paragraphTextMobile flex items-center gap-2">
-                    <FaCross className="text-red-600" />{" "}
-                    {new Date(r.date_of_death).toLocaleDateString()}
-                  </p>
-                  <p className="paragraphTextMobile flex items-center gap-2">
-                    <FaPhone /> {r.contact_number}
-                  </p>
-                  <p className="paragraphTextMobile flex items-center gap-2">
-                    <FaMapMarkerAlt /> Ward {r.ward_number || "N/A"}
-                  </p>
+                  <>
+  <h3 className="text-xl font-semibold text-gray-800 flex items-center gap-2 mb-2 break-words w-full leading-snug">
+    <FaUser className="text-blue-500 text-lg" />
+    {r.deceased_name}
+  </h3>
+
+  <p className="text-sm text-gray-600 flex items-center gap-2 mb-2 w-full">
+    <FaVenusMars className="text-pink-500" />
+    {r.gender}, Age: {r.age}
+  </p>
+
+  <p className="text-sm text-gray-600 flex items-center gap-2 mb-2 w-full">
+    <FaCross className="text-red-500" />
+    {r.cause_of_death}
+  </p>
+
+  <p className="text-sm text-gray-600 flex items-center gap-2 mb-3 w-full">
+    <FaPhone className="text-green-500" />
+    {r.contact_number}
+  </p>
+
+  <div className="flex justify-between items-center w-full mt-auto">
+    <p className="text-xs text-gray-400 flex items-center gap-1">
+      <FaMapMarkerAlt />
+      {new Date(r.date_of_death).toLocaleDateString()}
+    </p>
+  </div>
+</>
                   <button
                     onClick={(e) => handleDelete(r._id, e)}
                     className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full shadow hover:bg-red-600"
