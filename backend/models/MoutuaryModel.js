@@ -36,9 +36,6 @@ const MortuarySchema = new mongoose.Schema({
     ref: "Doctor",
     required: true,
   },
-  ward_number: {
-    type: String,
-  },
   body_received_by: {
     type: String,
     required: true,
@@ -50,6 +47,16 @@ const MortuarySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  deceased_id: {
+  type: mongoose.Schema.Types.ObjectId,
+  required: true,
+},
+
+deceased_type: {
+  type: String,
+  enum: ["Patient", "Pediatric"],
+  required: true,
+},
   released: {
     type: Boolean,
     default: false,
