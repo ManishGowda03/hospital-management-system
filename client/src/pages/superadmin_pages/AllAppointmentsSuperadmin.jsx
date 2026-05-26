@@ -113,7 +113,7 @@ const AllAppointmentsSuperadmin = () => {
             <div
               className={
                 view === "grid"
-                  ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4"
+? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
                   : view === "card"
                   ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
                   : "flex flex-col gap-3"
@@ -125,7 +125,7 @@ const AllAppointmentsSuperadmin = () => {
                   onClick={() =>
                     navigate(`/single-appointment-superadmin/${a._id}`)
                   }
-                  className={`relative cursor-pointer bg-white shadow rounded-lg p-4 hover:shadow-lg transition ${
+                  className={`relative cursor-pointer bg-white shadow-md rounded-xl p-4 border hover:shadow-lg transition-all duration-300 ${
                     view === "list"
                       ? "flex flex-wrap items-center gap-2 text-sm text-gray-700"
                       : "flex flex-col items-start"
@@ -162,27 +162,30 @@ const AllAppointmentsSuperadmin = () => {
                     </>
                   ) : (
                     <>
-                      <h3 className="subHeadingTextMobile flex items-center gap-2 mb-1">
+  <h3 className="text-xl font-semibold text-gray-800 flex items-center gap-2 mb-2 break-words w-full leading-snug">
                         <FaUser className="text-blue-500" /> {a.patient_name}
                       </h3>
-                      <p className="paragraphTextMobile flex items-center gap-2">
+  <p className="text-sm text-gray-600 flex items-center gap-2 mb-2 w-full">
                         <FaUserMd /> {a.doctor_id?.doctor_name}
                       </p>
-                      <p className="paragraphTextMobile flex items-center gap-2">
+  <p className="text-sm text-gray-600 flex items-center gap-2 mb-2 w-full">
                         <FaHospital /> {a.hospital_id?.hospital_name}
                       </p>
-                      <p className="paragraphTextMobile flex items-center gap-2">
+<p className="text-sm text-gray-600 flex items-center gap-2 mb-2 w-full">
                         <FaCalendarAlt /> {a.appointment_date?.slice(0, 10)}
                       </p>
-                      <p className="paragraphTextMobile flex items-center gap-2">
+<p className="text-sm text-gray-600 flex items-center gap-2 mb-2 w-full">
                         <FaClock /> {a.appointment_time}
                       </p>
-                      <p className="paragraphTextMobile flex items-center gap-2">
-                        <FaClipboardList /> {a.reason}
-                      </p>
-                      <p className="paragraphTextMobile">
-                        <strong>Status:</strong>{" "}
-                        <span className="capitalize text-indigo-600">
+                      <div className="text-sm text-gray-600 flex items-start gap-3 mb-3 w-full leading-relaxed">
+                        <FaClipboardList className="mt-1 flex-shrink-0 text-base" />
+                        <span>
+                          <span className="font-medium">Reason:</span> {a.reason}
+                        </span>
+                      </div>
+                      <p className="paragraphTextMobile text-sm font-semibold text-green-700 mt-1">
+                        Status:{" "}
+                        <span className="text-indigo-600">
                           {a.status}
                         </span>
                       </p>
