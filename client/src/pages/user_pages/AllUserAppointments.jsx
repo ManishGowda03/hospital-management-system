@@ -14,6 +14,7 @@ import {
 } from "react-icons/fa";
 import { toast } from "react-toastify";
 import globalBackendRoute from "../../config/Config";
+import { jwtDecode } from "jwt-decode";
 import SearchBar from "../../components/common_components/SearchBar";
 import stopwords from "../../components/common_components/stopwords";
 
@@ -22,23 +23,21 @@ const AllUserAppointments = () => {
   const [view, setView] = useState("grid");
   const [searchQuery, setSearchQuery] = useState("");
   const [totalCount, setTotalCount] = useState(0);
-  const [emailOrPhone, setEmailOrPhone] = useState("");
   const navigate = useNavigate();
 
+  useEffect(() => {
   const fetchAppointments = async () => {
     try {
-      if (!emailOrPhone.trim()) {
-        toast.error("Please enter a contact number or email.");
-        return;
-      }
+      const token = localStorage.getItem("token");
 
-      const query = emailOrPhone.includes("@")
-        ? `email=${emailOrPhone}`
-        : `contact_number=${emailOrPhone}`;
+      if (!token) return;
+
+      const decoded = jwtDecode(token);
 
       const res = await axios.get(
-        `${globalBackendRoute}/api/user-appointments?${query}`
+        `${globalBackendRoute}/api/user-appointments?email=${decoded.email}`
       );
+
       setAppointments(res.data);
       setTotalCount(res.data.length);
     } catch (error) {
@@ -46,6 +45,9 @@ const AllUserAppointments = () => {
       toast.error("Failed to fetch appointments.");
     }
   };
+
+  fetchAppointments();
+}, []);
 
   const filtered = searchQuery.trim()
     ? appointments.filter((a) => {
@@ -64,23 +66,8 @@ const AllUserAppointments = () => {
     <div className="fullWidth py-10">
       <div className="containerWidth">
         {/* Top Section */}
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
-          <div className="flex flex-wrap items-center gap-4">
-            <input
-              type="text"
-              value={emailOrPhone}
-              onChange={(e) => setEmailOrPhone(e.target.value)}
-              placeholder="Enter your email to see all your appointments"
-              className="formInput px-3 py-2"
-            />
-            <button
-              onClick={fetchAppointments}
-              className="fileUploadBtn text-sm py-2 px-4"
-            >
-              Fetch Appointments
-            </button>
-          </div>
-          <div className="flex items-center flex-wrap gap-4">
+<div className="flex justify-end items-center gap-4 mb-6 flex-wrap">
+            <div className="flex items-center flex-wrap gap-4">
             <FaThList
               className={`text-xl cursor-pointer ${
                 view === "list" ? "text-indigo-600" : "text-gray-600"

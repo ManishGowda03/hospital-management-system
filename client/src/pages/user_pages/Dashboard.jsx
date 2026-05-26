@@ -30,6 +30,7 @@ const Dashboard = () => {
     if (!token) return navigate("/login");
     try {
       const decoded = jwtDecode(token);
+      setUser(decoded);
       setUserId(decoded.id);
     } catch (error) {
       navigate("/login");
