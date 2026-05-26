@@ -111,8 +111,8 @@ const login = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
 
     const token = jwt.sign(
-      { id: user._id, name: user.name, role: user.role },
-      process.env.JWT_SECRET || "ecoders_jwt_secret",
+      { id: user._id, name: user.name, email: user.email, role: user.role },
+      process.env.JWT_SECRET || "hms_secret_key_2025",
       { expiresIn: "1h" }
     );
 
