@@ -11,6 +11,7 @@ import {
 } from "react-icons/fa";
 import { MdSave } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 import globalBackendRoute from "../../config/Config";
 
 const BookAppointment = () => {
@@ -44,6 +45,21 @@ const BookAppointment = () => {
     };
 
     fetchData();
+
+    const token = localStorage.getItem("token");
+
+if (token) {
+  const decoded = jwtDecode(token);
+
+      console.log(decoded);
+
+
+  setAppointment((prev) => ({
+    ...prev,
+    patient_name: decoded.name || "",
+    email: decoded.email || "",
+  }));
+}
   }, []);
 
   const handleChange = (e) => {
@@ -122,22 +138,37 @@ const BookAppointment = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {renderInput(
-            "Full Name",
-            "patient_name",
-            <FaUser className="text-blue-500" />
-          )}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+  <label className="formLabel w-full sm:w-1/3 flex items-center">
+    <FaUser className="text-blue-500" />
+    <span className="ml-2">Full Name</span>
+  </label>
+
+  <input
+    type="text"
+    value={appointment.patient_name}
+    readOnly
+    className="formInput w-full sm:w-2/3 bg-gray-100"
+  />
+</div>
           {renderInput(
             "Contact Number",
             "contact_number",
             <FaPhone className="text-green-500" />
           )}
-          {renderInput(
-            "Email",
-            "email",
-            <FaEnvelope className="text-red-500" />,
-            "email"
-          )}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+  <label className="formLabel w-full sm:w-1/3 flex items-center">
+    <FaEnvelope className="text-red-500" />
+    <span className="ml-2">Email</span>
+  </label>
+
+  <input
+    type="email"
+    value={appointment.email}
+    readOnly
+    className="formInput w-full sm:w-2/3 bg-gray-100"
+  />
+</div>
 
           {/* Hospital Dropdown */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
