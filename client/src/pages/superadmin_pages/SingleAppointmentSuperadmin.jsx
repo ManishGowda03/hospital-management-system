@@ -52,50 +52,58 @@ export default function SingleAppointmentSuperadmin() {
 
         <div className="border-t border-gray-200 divide-y divide-gray-100">
           <DetailField
-            icon={<FaUserInjured />}
-            label="Patient Name"
-            value={appointment.patient_name}
-          />
-          <DetailField
-            icon={<FaPhone />}
-            label="Contact Number"
-            value={appointment.contact_number}
-          />
-          <DetailField
-            icon={<FaEnvelope />}
-            label="Email"
-            value={appointment.email || "N/A"}
-          />
-          <DetailField
-            icon={<FaUserMd />}
-            label="Doctor"
-            value={appointment.doctor_id?.doctor_name}
-          />
-          <DetailField
-            icon={<FaHospital />}
-            label="Hospital"
-            value={appointment.hospital_id?.hospital_name}
-          />
-          <DetailField
-            icon={<FaCalendarAlt />}
-            label="Appointment Date"
-            value={appointment.appointment_date?.slice(0, 10)}
-          />
-          <DetailField
-            icon={<FaClock />}
-            label="Time"
-            value={appointment.appointment_time}
-          />
-          <DetailField
-            icon={<FaClipboardList />}
-            label="Reason"
-            value={appointment.reason}
-          />
-          <DetailField
-            icon={<FaClipboardList />}
-            label="Status"
-            value={appointment.status}
-          />
+  icon={<FaUserInjured className="text-blue-500" />}
+  label="Patient Name"
+  value={appointment.patient_name}
+/>
+
+<DetailField
+  icon={<FaPhone className="text-green-500" />}
+  label="Contact Number"
+  value={appointment.contact_number}
+/>
+
+<DetailField
+  icon={<FaEnvelope className="text-red-500" />}
+  label="Email"
+  value={appointment.email || "N/A"}
+/>
+
+<DetailField
+  icon={<FaUserMd className="text-teal-600" />}
+  label="Doctor"
+  value={appointment.doctor_id?.doctor_name}
+/>
+
+<DetailField
+  icon={<FaHospital className="text-pink-500" />}
+  label="Hospital"
+  value={appointment.hospital_id?.hospital_name}
+/>
+
+<DetailField
+  icon={<FaCalendarAlt className="text-purple-500" />}
+  label="Appointment Date"
+  value={appointment.appointment_date?.slice(0, 10)}
+/>
+
+<DetailField
+  icon={<FaClock className="text-yellow-500" />}
+  label="Time"
+  value={appointment.appointment_time}
+/>
+
+<DetailField
+  icon={<FaClipboardList className="text-indigo-500" />}
+  label="Reason"
+  value={appointment.reason}
+/>
+
+<DetailField
+  icon={<FaClipboardList className="text-green-600" />}
+  label="Status"
+  value={appointment.status}
+/>
         </div>
 
         <div className="mt-6 text-center">

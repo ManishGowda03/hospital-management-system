@@ -46,6 +46,11 @@ export default function UpdateAppointmentSuperadmin() {
           ...data,
           hospital_id: data.hospital_id?._id || data.hospital_id,
           doctor_id: data.doctor_id?._id || data.doctor_id,
+          doctor_name: data.doctor_id?.doctor_name || "",
+hospital_name: data.hospital_id?.hospital_name || "",
+appointment_date: data.appointment_date
+  ? data.appointment_date.slice(0, 10)
+  : "",
         });
         setHospitals(hospitalRes.data);
         setDoctors(doctorRes.data);
@@ -76,27 +81,38 @@ export default function UpdateAppointmentSuperadmin() {
     }
   };
 
-  const renderInput = (label, name, icon, type = "text") => (
-    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
-      <label className="formLabel w-full sm:w-1/3 flex items-center">
-        {icon}
-        <span className="ml-2">{label}</span>
-      </label>
+  const renderField = (
+  label,
+  name,
+  icon,
+  type = "text",
+  readOnly = false
+) => (
+  <div className="py-3 sm:grid sm:grid-cols-3 sm:gap-4 px-2 sm:px-4">
+    <dt className="flex items-center text-sm font-medium text-gray-700 gap-2">
+      {icon} {label}
+    </dt>
+
+    <dd className="mt-1 sm:col-span-2 sm:mt-0">
       <input
         type={type}
         name={name}
         value={appointment[name] || ""}
         onChange={handleChange}
-        required={name !== "email"}
-        className="formInput w-full sm:w-2/3"
-        placeholder={`Enter ${label.toLowerCase()}`}
+        readOnly={readOnly}
+        className={`w-full text-sm border-b border-gray-300 bg-transparent focus:outline-none ${
+          readOnly
+            ? "text-gray-600 cursor-not-allowed"
+            : ""
+        }`}
       />
-    </div>
-  );
+    </dd>
+  </div>
+);
 
   return (
-    <div className="bg-white py-10">
-      <div className="compactWidth">
+    <div className="containerWidth my-6">
+  <form onSubmit={handleSubmit} className="w-full">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
           <h2 className="headingText">Update Appointment</h2>
           <Link to="/all-appointments-superadmin">
@@ -106,80 +122,98 @@ export default function UpdateAppointmentSuperadmin() {
           </Link>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {renderInput("Patient Name", "patient_name", <FaUser />)}
-          {renderInput("Contact Number", "contact_number", <FaPhone />)}
-          {renderInput("Email", "email", <FaEnvelope />)}
+         {renderField(
+  "Patient Name",
+  "patient_name",
+  <FaUser className="text-blue-500" />,
+  "text",
+  true
+)}
 
-          {/* Doctor Select */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
-            <label className="formLabel w-full sm:w-1/3 flex items-center">
-              <FaUserMd className="text-blue-500" />
-              <span className="ml-2">Doctor</span>
-            </label>
-            <select
-              name="doctor_id"
-              value={appointment.doctor_id}
-              onChange={handleChange}
-              required
-              className="formInput w-full sm:w-2/3"
-            >
-              <option value="">Select doctor</option>
-              {doctors.map((d) => (
-                <option key={d._id} value={d._id}>
-                  {d.doctor_name}
-                </option>
-              ))}
-            </select>
-          </div>
+{renderField(
+  "Contact Number",
+  "contact_number",
+  <FaPhone className="text-green-500" />,
+  "text",
+  true
+)}
 
-          {/* Hospital Select */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
-            <label className="formLabel w-full sm:w-1/3 flex items-center">
-              <FaHospital className="text-green-500" />
-              <span className="ml-2">Hospital</span>
-            </label>
-            <select
-              name="hospital_id"
-              value={appointment.hospital_id}
-              onChange={handleChange}
-              required
-              className="formInput w-full sm:w-2/3"
-            >
-              <option value="">Select hospital</option>
-              {hospitals.map((h) => (
-                <option key={h._id} value={h._id}>
-                  {h.hospital_name}
-                </option>
-              ))}
-            </select>
-          </div>
+{renderField(
+  "Email",
+  "email",
+  <FaEnvelope className="text-red-500" />,
+  "text",
+  true
+)}
 
-          {renderInput(
-            "Appointment Date",
-            "appointment_date",
-            <FaCalendarAlt />,
-            "date"
-          )}
-          {renderInput(
-            "Appointment Time",
-            "appointment_time",
-            <FaClock />,
-            "time"
-          )}
-          {renderInput("Reason", "reason", <FaClipboardList />)}
+{renderField(
+  "Doctor",
+  "doctor_name",
+  <FaUserMd className="text-teal-600" />,
+  "text",
+  true
+)}
 
-          <div className="pt-4 flex justify-end">
-            <button
+{renderField(
+  "Hospital",
+  "hospital_name",
+  <FaHospital className="text-pink-500" />,
+  "text",
+  true
+)}
+
+{renderField(
+  "Appointment Date",
+  "appointment_date",
+  <FaCalendarAlt className="text-purple-500" />,
+  "date",
+  true
+)}
+
+{renderField(
+  "Appointment Time",
+  "appointment_time",
+  <FaClock className="text-yellow-500" />,
+  "time",
+  true
+)}
+
+{renderField(
+  "Reason",
+  "reason",
+  <FaClipboardList className="text-indigo-500" />,
+  "text",
+  true
+)}
+<div className="py-3 sm:grid sm:grid-cols-3 sm:gap-4 px-2 sm:px-4">
+  <dt className="flex items-center text-sm font-medium text-gray-700 gap-2">
+    <FaClipboardList className="text-green-600" />
+    Status
+  </dt>
+
+  <dd className="mt-1 sm:col-span-2 sm:mt-0">
+    <select
+      name="status"
+      value={appointment.status}
+      onChange={handleChange}
+      className="w-full text-sm border-b border-gray-300 bg-transparent focus:outline-none"
+    >
+      <option value="Scheduled">Scheduled</option>
+      <option value="Completed">Completed</option>
+      <option value="Cancelled">Cancelled</option>
+    </select>
+  </dd>
+</div>
+
+<div className="mt-6 text-center">           
+   <button
               type="submit"
-              className="primaryBtn flex justify-center items-center gap-2 px-4 py-2"
-            >
+className="primaryBtn w-fit px-4 flex items-center gap-2 rounded-full mx-auto"            >
               <MdSave />
               Save Changes
             </button>
           </div>
         </form>
       </div>
-    </div>
   );
 }
