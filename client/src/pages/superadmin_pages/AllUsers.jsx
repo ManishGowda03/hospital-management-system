@@ -27,13 +27,13 @@ const AllUsers = () => {
     fetchUsers();
   }, []);
 
-  const getImageUrl = (avatar, role) => {
-    if (avatar) {
-      const normalized = avatar.replace(/\\/g, "/").split("/").pop();
-      return `${globalBackendRoute}/uploads/user/${role}/${normalized}`;
-    }
-    return "https://via.placeholder.com/150";
-  };
+  const getImageUrl = (avatar) => {
+  if (avatar) {
+    return `${globalBackendRoute}/${avatar.replace(/\\/g, "/")}`;
+  }
+
+  return "https://via.placeholder.com/150?text=No+Image";
+};
 
   const handleImageError = (e) => {
     if (!e.target.dataset.fallback) {
@@ -128,7 +128,7 @@ const AllUsers = () => {
                   className="relative flex flex-col items-start bg-white shadow rounded-lg overflow-hidden"
                 >
                   <img
-                    src={getImageUrl(user.avatar, user.role)}
+                    src={getImageUrl(user.avatar)}
                     alt={user.name}
                     onError={handleImageError}
                     className="w-full h-48 object-cover"
@@ -159,7 +159,7 @@ const AllUsers = () => {
                   className="bg-white rounded-lg shadow relative"
                 >
                   <img
-                    src={getImageUrl(user.avatar, user.role)}
+                    src={getImageUrl(user.avatar)}
                     alt={user.name}
                     onError={handleImageError}
                     className="w-full h-96 object-cover rounded-t-lg"
@@ -190,7 +190,7 @@ const AllUsers = () => {
                   className="flex items-center space-x-4 bg-white rounded-lg shadow p-3 relative"
                 >
                   <img
-                    src={getImageUrl(user.avatar, user.role)}
+                    src={getImageUrl(user.avatar)}
                     alt={user.name}
                     onError={handleImageError}
                     className="w-20 h-20 object-cover rounded-lg"
