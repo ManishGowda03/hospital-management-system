@@ -3,12 +3,14 @@ import axios from "axios";
 import { FaSignInAlt } from "react-icons/fa";
 import { AuthContext } from "../../components/auth_components/AuthManager";
 import globalBackendRoute from "../../config/Config";
+import { Link } from "react-router-dom";  
 
 const Login = () => {
   const { login } = useContext(AuthContext);
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const { email, password } = formData;
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -46,17 +48,23 @@ const Login = () => {
     }
 
     try {
+          setLoading(true);
+
       const response = await axios.post(
         `${globalBackendRoute}/api/login`,
         formData
       );
       login(response.data.token);
-      alert("Login successful, redirecting...");
       setError("");
-    } catch {
-      setError("Login failed. Try again.");
-    }
-  };
+    } catch (error) {
+    setError(
+      error.response?.data?.message ||
+        "Login failed. Try again."
+    );
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="compactWidth py-12">
@@ -102,12 +110,12 @@ const Login = () => {
               >
                 Password
               </label>
-              <a
-                href="/forgot-password"
-                className="text-sm text-indigo-500 hover:text-indigo-600 font-bold"
-              >
-                Forgot password?
-              </a>
+             <Link
+  to="/forgot-password"
+  className="text-sm text-indigo-500 hover:text-indigo-600 font-bold"
+>
+  Forgot password?
+</Link>
             </div>
             <input
               id="password"
@@ -121,17 +129,17 @@ const Login = () => {
             />
           </div>
 
-          <button type="submit" className="primaryBtn">
-            Login
+          <button type="submit" className="primaryBtn"   disabled={loading} >
+  {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
         {/* Footer */}
         <p className="mt-6 text-center paragraphTextMobile">
           Don't have an account?{" "}
-          <a href="/register" className="linkTextMobile lg:linkText">
+          <Link to="/register" className="linkTextMobile lg:linkText">
             Register here
-          </a>
+          </Link>
         </p>
       </div>
     </div>

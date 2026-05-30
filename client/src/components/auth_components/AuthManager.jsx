@@ -62,8 +62,14 @@ export const AuthProvider = ({ children }) => {
 export const PrivateRoute = ({ children, allowedRoles = [] }) => {
   const { isLoggedIn, user, loading } = useContext(AuthContext);
 
-  if (loading) return <div>Loading...</div>;
-
+if (loading)
+  return (
+    <div className="flex justify-center items-center min-h-screen">
+      <div className="text-lg font-medium">
+        Loading...
+      </div>
+    </div>
+  );
   if (!isLoggedIn) {
     return (
       <Navigate

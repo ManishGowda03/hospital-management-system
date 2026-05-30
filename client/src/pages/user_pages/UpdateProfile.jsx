@@ -14,6 +14,8 @@ import globalBackendRoute from "../../config/Config";
 export default function UpdateProfile() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [fetching, setFetching] = useState(true);
+const [saving, setSaving] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -36,6 +38,7 @@ export default function UpdateProfile() {
     const fetchUserData = async () => {
       const token = localStorage.getItem("token");
       try {
+setFetching(true);
         const res = await axios.get(
           `${globalBackendRoute}/api/getUserById/${id}`,
           {
@@ -55,6 +58,9 @@ export default function UpdateProfile() {
         });
       } catch (err) {
         console.error("Error fetching user data:", err);
+      }
+      finally{
+        setFetching(false);
       }
     };
     fetchUserData();
@@ -79,10 +85,20 @@ export default function UpdateProfile() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (
+  formData.phone &&
+  !/^[0-9]{10}$/.test(formData.phone)
+) {
+  alert(
+    "Phone number must contain exactly 10 digits"
+  );
+  return;
+}
     const token = localStorage.getItem("token");
     const form = new FormData();
 
     try {
+       setSaving(true);
       for (let key in formData) {
         if (key === "address") {
           form.append("address", JSON.stringify(formData.address));
@@ -102,6 +118,9 @@ export default function UpdateProfile() {
       console.error("Error updating profile:", err.response || err);
       alert("Failed to update profile.");
     }
+    finally {
+  setSaving(false);
+}
   };
 
   const getImageUrl = (avatar) => {
@@ -212,9 +231,14 @@ export default function UpdateProfile() {
           <div className="mt-6 text-center">
             <button
               type="submit"
+disabled={saving}
               className="primaryBtn w-fit px-4 flex items-center gap-2 rounded-full mx-auto"
             >
-              <MdSave /> Save
+               {saving  ? "Saving..." : (
+    <>
+      <MdSave /> Save
+    </>
+               )}
             </button>
           </div>
         </form>

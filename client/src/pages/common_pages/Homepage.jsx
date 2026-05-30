@@ -1,70 +1,136 @@
-"use client";
+import React from "react";
+import { Link } from "react-router-dom";
+import {
+  FaUserInjured,
+  FaUserMd,
+  FaHospital,
+  FaCalendarCheck,
+} from "react-icons/fa";
 
-import { useState } from "react";
-import { Dialog, DialogPanel } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-
-const navigation = [
-  { name: "Product", href: "#" },
-  { name: "Features", href: "#" },
-  { name: "Marketplace", href: "#" },
-  { name: "Company", href: "#" },
-];
-
-export default function Homepage() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
+const Home = () => {
   return (
-    <div className="bg-white">
-      <div className="relative isolate lg:px-8">
-        <div className="mx-auto max-w-2xl py-section-sm sm:py-section-md lg:py-section-lg">
-          <div className="hidden sm:mb-8 sm:flex sm:justify-center">
-            <div className="announcement">
-              Announcing our next level of Treatment.{" "}
-              <a href="/about-us" className="text-red-600 font-bold">
-                <span aria-hidden="true" className="absolute inset-0" />
-                Read more <span aria-hidden="true">&rarr;</span>
-              </a>
-            </div>
+    <div>
+
+      {/* Hero Section */}
+      <section className="bg-gradient-to-r from-blue-50 to-indigo-50 py-20">
+        <div className="containerWidth text-center">
+
+          <h1 className="headingText mb-6">
+            Hospital Management System
+          </h1>
+
+          <p className="paragraphText max-w-3xl mx-auto mb-8">
+            A modern healthcare management platform built using the MERN Stack
+            that simplifies hospital operations, patient management,
+            appointment scheduling, treatment tracking, and administrative
+            workflows.
+          </p>
+
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <Link to="/book-appointment">
+              <button className="primaryBtn">
+                Book Appointment
+              </button>
+            </Link>
+
+            <Link to="/about-us">
+              <button className="secondaryBtn">
+                Learn More
+              </button>
+            </Link>
           </div>
 
-          <div className="text-center">
-            <h1 className="heroHeading">Hospital Management System</h1>
-            <p className="heroSubtext">
-              A comprehensive solution to streamline hospital operations, manage
-              patient care, and enhance administrative efficiency.
+        </div>
+      </section>
+
+      {/* Overview Cards */}
+      <section className="containerWidth py-16">
+
+        <h2 className="subHeadingText text-center mb-10">
+          Hospital Overview
+        </h2>
+
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+
+          <div className="bg-blue-50 border border-blue-100 rounded-xl p-6 text-center shadow-sm hover:shadow-md transition">
+            <FaUserInjured className="text-blue-500 text-4xl mx-auto mb-4" />
+
+            <h3 className="font-bold text-lg">
+              Patients
+            </h3>
+
+            <p className="text-gray-600 text-sm mt-1">
+              Patient Records
             </p>
-            <div className="mt-10 flex items-center justify-center gap-x-6">
-              <a
-                href="/contact-us"
-                className="btnPrimary btn btn-sm btn-outline-danger rounded-pill font-bold"
-              >
-                Get started
-              </a>
-              <a
-                href="/about-us"
-                className="text-sm/6 font-bold  btn btn-sm btn-outline-warning rounded-pill "
-              >
-                Learn more <span aria-hidden="true">&rarr;</span>
-              </a>
-            </div>
           </div>
+
+          <div className="bg-green-50 border border-green-100 rounded-xl p-6 text-center shadow-sm hover:shadow-md transition">
+            <FaUserMd className="text-green-500 text-4xl mx-auto mb-4" />
+
+            <h3 className="font-bold text-lg">
+              Doctors
+            </h3>
+
+            <p className="text-gray-600 text-sm mt-1">
+              Medical Specialists
+            </p>
+          </div>
+
+          <div className="bg-red-50 border border-red-100 rounded-xl p-6 text-center shadow-sm hover:shadow-md transition">
+            <FaHospital className="text-red-500 text-4xl mx-auto mb-4" />
+
+            <h3 className="font-bold text-lg">
+              Hospitals
+            </h3>
+
+            <p className="text-gray-600 text-sm mt-1">
+              Healthcare Facilities
+            </p>
+          </div>
+
+          <div className="bg-purple-50 border border-purple-100 rounded-xl p-6 text-center shadow-sm hover:shadow-md transition">
+            <FaCalendarCheck className="text-purple-500 text-4xl mx-auto mb-4" />
+
+            <h3 className="font-bold text-lg">
+              Appointments
+            </h3>
+
+            <p className="text-gray-600 text-sm mt-1">
+              Appointment Scheduling
+            </p>
+          </div>
+
         </div>
 
-        {/* Background blob */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
-        >
-          <div
-            style={{
-              clipPath:
-                "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
-            }}
-            className="relative left-[calc(50%+3rem)] aspect-1155/678 w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
-          />
+      </section>
+
+      {/* CTA Section */}
+      <section className="bg-gray-50 py-16">
+
+        <div className="containerWidth text-center">
+
+          <h2 className="subHeadingText mb-4">
+            Simplifying Healthcare Management
+          </h2>
+
+          <p className="paragraphText max-w-2xl mx-auto mb-8">
+            HMS provides an efficient platform for managing hospitals,
+            appointments, treatments, and patient records from a single
+            centralized system.
+          </p>
+
+          <Link to="/contact-us">
+            <button className="primaryBtn">
+              Contact Us
+            </button>
+          </Link>
+
         </div>
-      </div>
+
+      </section>
+
     </div>
   );
-}
+};
+
+export default Home;

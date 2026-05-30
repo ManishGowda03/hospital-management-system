@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import axios from "axios";
 import { FaLock } from "react-icons/fa";
 import globalBackendRoute from "../../config/Config";
@@ -10,15 +11,21 @@ const ResetPassword = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
+  const [loading, setLoading] = useState(false);
 
   const email = location.state?.email;
-  const otp = location.state?.otp;
 
   const validatePassword = (password) => {
     const regex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&^_-])[A-Za-z\d@$!%*#?&^_-]{8,}$/;
     return regex.test(password);
   };
+
+  useEffect(() => {
+  if (!email) {
+    navigate("/forgot-password");
+  }
+}, [email, navigate]);
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
@@ -36,23 +43,24 @@ const ResetPassword = () => {
     }
 
     try {
-      const response = await axios.post(
+        setLoading(true);
+
+      await axios.post(
         `${globalBackendRoute}/api/reset-password`,
         {
           email,
-          otp,
           newPassword,
         }
       );
-      alert("Password reset successfully! Redirecting to login page...");
       navigate("/login");
     } catch (error) {
-      console.error(
-        "Password reset error:",
-        error.response?.data || error.message
-      );
-      setError("Failed to reset password. Please try again.");
-    }
+  setError(
+    error.response?.data?.message ||
+      "Failed to reset password."
+  );
+} finally {
+  setLoading(false);
+}
   };
 
   return (
@@ -107,8 +115,10 @@ const ResetPassword = () => {
           </div>
 
           <div className="text-center">
-            <button type="submit" className="primaryBtn w-auto px-6">
-              Reset Password
+            <button type="submit" className="primaryBtn w-auto px-6"
+              disabled={loading}
+>
+  {loading ? "Resetting..." : "Reset Password"}
             </button>
           </div>
 

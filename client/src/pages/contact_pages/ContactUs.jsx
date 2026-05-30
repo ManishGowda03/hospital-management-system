@@ -217,7 +217,7 @@ const ContactUs = () => {
             <MdOutlineLocalPhone className="w-8 h-8 text-green-600 mt-1" />
             <div className="flex items-center">
               <h5 className="text-lg font-bold">Phone</h5>
-              <p className="text-md text-gray-600 ms-2">+91 9830137893</p>
+              <p className="text-md text-gray-600 ms-2">+91 9876567891</p>
             </div>
           </div>
 

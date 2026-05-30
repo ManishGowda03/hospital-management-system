@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { FaUserPlus } from "react-icons/fa";
 import globalBackendRoute from "../../config/Config";
+import { Link } from "react-router-dom";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ const Register = () => {
   });
   const [error, setError] = useState("");
   const { name, email, password } = formData;
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -43,35 +45,48 @@ const Register = () => {
     if (validationError) return setError(validationError);
 
     try {
+        setLoading(true);
+
       await axios.post(`${globalBackendRoute}/api/register`, formData);
-      alert("Registration successful. Redirecting to login.");
       navigate("/login");
-    } catch {
-      setError("Registration failed. Try again.");
-    }
+    } catch (error) {
+  setError(
+    error.response?.data?.message ||
+      "Registration failed."
+  );
+} finally {
+  setLoading(false);
+}
   };
 
-  const renderInput = (label, type, id) => (
-    <div>
-      <label htmlFor={id} className="formLabel">
-        {label}
-      </label>
-      <input
-        id={id}
-        name={id}
-        type={type}
-        value={formData[id]}
-        onChange={handleChange}
-        required
-        className="mt-2 formInput"
-      />
-    </div>
-  );
+  const renderInput = (
+  label,
+  type,
+  id,
+  placeholder
+) => (
+  <div>
+    <label htmlFor={id} className="formLabel">
+      {label}
+    </label>
+
+    <input
+      id={id}
+      name={id}
+      type={type}
+      value={formData[id]}
+      onChange={handleChange}
+      required
+      placeholder={placeholder}
+      className="mt-2 formInput"
+    />
+  </div>
+);
 
   return (
-    <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <FaUserPlus className="iconPrimary" />
+<div className="compactWidth py-12">
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <FaUserPlus className="iconPrimary mx-auto" />
         <h2 className="mt-6 text-center headingTextMobile lg:headingText">
           Register a new account
         </h2>
@@ -81,20 +96,40 @@ const Register = () => {
         {error && <p className="errorText mb-4">{error}</p>}
 
         <form onSubmit={handleSubmit} className="space-y-5">
-          {renderInput("Name", "text", "name")}
-          {renderInput("Email address", "email", "email")}
-          {renderInput("Password", "password", "password")}
+          {renderInput(
+  "Name",
+  "text",
+  "name",
+  "Enter your full name"
+)}
 
-          <button type="submit" className="primaryBtn">
-            Register
+{renderInput(
+  "Email address",
+  "email",
+  "email",
+  "Enter your email address"
+)}
+
+{renderInput(
+  "Password",
+  "password",
+  "password",
+  "Create a strong password"
+)}
+
+          <button type="submit" className="primaryBtn"   disabled={loading} >
+  {loading ? "Creating Account..." : "Register"}
           </button>
         </form>
 
         <p className="mt-6 text-center paragraphTextMobile lg:paragraphText">
           Already have an account?{" "}
-          <a href="/login" className="linkTextMobile lg:linkText">
-            Sign in
-          </a>
+          <Link
+  to="/login"
+  className="linkTextMobile lg:linkText"
+>
+  Sign in
+</Link>
         </p>
       </div>
     </div>

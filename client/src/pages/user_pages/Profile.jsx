@@ -58,7 +58,7 @@ export default function Profile() {
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="w-auto h-full sm:w-48 sm:h-48"
+          className="w-40 h-40 sm:w-48 sm:h-48"
         >
           <img
             src={getImageUrl(userData.avatar)}
@@ -151,7 +151,7 @@ function ProfileField({ icon, label, value }) {
       <dt className="flex items-center text-sm font-medium text-gray-700 gap-2">
         {icon} {label}
       </dt>
-      <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+      <dd className="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0 break-words">
         {value}
       </dd>
     </div>

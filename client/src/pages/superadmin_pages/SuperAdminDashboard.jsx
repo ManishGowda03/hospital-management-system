@@ -138,27 +138,6 @@ const SuperadminDashboard = () => {
       link: "/all-blogs",
       icon: iconMap.blog,
     },
-
-    {
-      title: "All Categories",
-      value: "Manage Categories",
-      link: "/all-categories",
-      icon: iconMap.category,
-    },
-
-    {
-      title: "All Vendors",
-      value: "Manage Vendors",
-      link: "/all-vendors",
-      icon: iconMap.vendor,
-    },
-
-    {
-      title: "All Outlets",
-      value: "Manage Outlets",
-      link: "/all-outlets",
-      icon: iconMap.outlet,
-    },
   ];
 
   const filteredCards =
@@ -284,30 +263,6 @@ const SuperadminDashboard = () => {
                   label: "Add Mortuary Details",
                   icon: <FaBoxOpen className="text-green-800" />,
                   path: "/add-mortuary",
-                },
-
-                {
-                  label: "Add Category",
-                  icon: <FaPlus className="text-orange-500" />,
-                  path: "/add-category",
-                },
-
-                {
-                  label: "Add Product",
-                  icon: <FaBoxOpen className="text-green-600" />,
-                  path: "/add-product",
-                },
-
-                {
-                  label: "Add Vendor",
-                  icon: <FaStore className="text-purple-600" />,
-                  path: "/add-vendor",
-                },
-
-                {
-                  label: "Add Outlet",
-                  icon: <FaBuilding className="text-orange-500" />,
-                  path: "/add-outlet",
                 },
 
                 {

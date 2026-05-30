@@ -13,27 +13,13 @@ import AboutUs from "../../pages/common_pages/AboutUs";
 import Register from "../../pages/user_pages/Register";
 import Login from "../../pages/user_pages/Login";
 import Dashboard from "../../pages/user_pages/Dashboard";
-import AdminDashboard from "../../pages/admin_pages/AdminDashboard";
 import SuperAdminDashboard from "../../pages/superadmin_pages/SuperAdminDashboard";
-import EmployeeDashboard from "../../pages/employee_pages/EmployeeDashboard";
 import Profile from "../../pages/user_pages/Profile";
-import OutletDashboard from "../../pages/outlet_pages/OutletDashboard";
-import VendorDashboard from "../../pages/vendor_pages/VendorDashboard";
 import UpdateProfile from "../../pages/user_pages/UpdateProfile";
 import AllUsers from "../../pages/superadmin_pages/AllUsers";
 import SingleUser from "../../pages/superadmin_pages/SingleUser";
 import ForgotPassword from "../../pages/user_pages/ForgotPassword";
 import ResetPassword from "../../pages/user_pages/ResetPassword";
-import AddCategory from "../../pages/category_pages/AddCategory";
-import AllCategories from "../../pages/category_pages/AllCategories";
-import SingleCategory from "../../pages/category_pages/SingleCategory";
-import CategoryAllProducts from "../../pages/category_pages/CategoryAllProducts";
-import AddVendor from "../../pages/vendor_pages/AddVendor";
-import AllVendors from "../../pages/vendor_pages/AllVendors";
-import SingleVendor from "../../pages/vendor_pages/SingleVendor";
-import AddOutlet from "../../pages/outlet_pages/AddOutlet";
-import SingleOutlet from "../../pages/outlet_pages/SingleOutlet";
-import AllOutlets from "../../pages/outlet_pages/AllOutlets";
 
 // blog pages.
 import AddBlog from "../../pages/blog_pages/AddBlog";
@@ -46,8 +32,6 @@ import AllMessages from "../../pages/contact_pages/AllMessages";
 import ReplyMessage from "../../pages/contact_pages/ReplyMessage";
 import AllReplies from "../../pages/contact_pages/AllReplies";
 
-// subscription page.
-import Subscriptions from "../../pages/subscription_pages/Subscriptions";
 
 // hospital routes.
 import AddHospital from "../../pages/hospital_pages/AddHHospital";
@@ -238,46 +222,9 @@ const MainLayout = () => {
             }
           />
 
-          <Route
-            path="/admin-dashboard"
-            element={
-              <PrivateRoute allowedRoles={["admin", "superadmin"]}>
-                <PageTitle title="Admin Dashboard">
-                  <AdminDashboard />
-                </PageTitle>
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/employee-dashboard"
-            element={
-              <PrivateRoute allowedRoles={["employee", "superadmin"]}>
-                <PageTitle title="Employee Dashboard">
-                  <EmployeeDashboard />
-                </PageTitle>
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/outlet-dashboard"
-            element={
-              <PrivateRoute allowedRoles={["outlet", "superadmin"]}>
-                <PageTitle title="Outlet Dashboard">
-                  <OutletDashboard />
-                </PageTitle>
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/vendor-dashboard"
-            element={
-              <PrivateRoute allowedRoles={["vendor", "superadmin"]}>
-                <PageTitle title="Vendor Dashboard">
-                  <VendorDashboard />
-                </PageTitle>
-              </PrivateRoute>
-            }
-          />
+       
+        
+         
           <Route
             path="/profile/:id"
             element={
@@ -339,126 +286,10 @@ const MainLayout = () => {
               </PrivateRoute>
             }
           />
-          <Route
-            path="/add-category"
-            element={
-              <PrivateRoute allowedRoles={["superadmin"]}>
-                <PageTitle title="Add Category">
-                  <AddCategory />
-                </PageTitle>
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/all-categories"
-            element={
-              <PrivateRoute allowedRoles={["superadmin"]}>
-                <PageTitle title="All Categories">
-                  <AllCategories />
-                </PageTitle>
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/single-category/:id"
-            element={
-              <PrivateRoute allowedRoles={["superadmin"]}>
-                <PageTitle title="Single Category">
-                  <SingleCategory />
-                </PageTitle>
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/single-category-all-products/:id"
-            element={
-              <PrivateRoute allowedRoles={["superadmin"]}>
-                <PageTitle title="Category All Products">
-                  <CategoryAllProducts />
-                </PageTitle>
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/add-vendor"
-            element={
-              <PrivateRoute allowedRoles={["superadmin"]}>
-                <PageTitle title="Add Vendor">
-                  <AddVendor />
-                </PageTitle>
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/all-vendors"
-            element={
-              <PrivateRoute allowedRoles={["superadmin"]}>
-                <PageTitle title="All Vendors">
-                  <AllVendors />
-                </PageTitle>
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/single-vendor/:vendorId"
-            element={
-              <PrivateRoute allowedRoles={["superadmin"]}>
-                <PageTitle title="Single Vendor">
-                  <SingleVendor />
-                </PageTitle>
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/vendor-dashboard/:vendorId"
-            element={
-              <PrivateRoute allowedRoles={["superadmin", "vendor"]}>
-                <PageTitle title="Vendor Dashboard">
-                  <VendorDashboard />
-                </PageTitle>
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/add-outlet"
-            element={
-              <PrivateRoute allowedRoles={["superadmin"]}>
-                <PageTitle title="Add Outlet">
-                  <AddOutlet />
-                </PageTitle>
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/all-outlets"
-            element={
-              <PrivateRoute allowedRoles={["superadmin"]}>
-                <PageTitle title="All Outlets">
-                  <AllOutlets />
-                </PageTitle>
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/single-outlet/:outletId"
-            element={
-              <PrivateRoute allowedRoles={["superadmin"]}>
-                <PageTitle title="Single Outlet">
-                  <SingleOutlet />
-                </PageTitle>
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/outlet-dashboard/:outletId"
-            element={
-              <PrivateRoute allowedRoles={["superadmin", "outlet"]}>
-                <PageTitle title="Outlet Dashboard">
-                  <OutletDashboard />
-                </PageTitle>
-              </PrivateRoute>
-            }
-          />
+         
+         
+         
+          
           {/* blog routes..  */}
           <Route
             path="/add-blog"
@@ -517,17 +348,8 @@ const MainLayout = () => {
               </PrivateRoute>
             }
           />
-          {/* subscription page route */}
-          <Route
-            path="/all-subscriptions"
-            element={
-              <PrivateRoute allowedRoles={["superadmin"]}>
-                <PageTitle title="All Subscriptions">
-                  <Subscriptions />
-                </PageTitle>
-              </PrivateRoute>
-            }
-          />
+          
+          
           {/* hospital routes */}
           <Route
             path="/add-hospital"
