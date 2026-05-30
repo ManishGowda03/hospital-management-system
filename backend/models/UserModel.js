@@ -1,11 +1,15 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  email: { type: String, unique: true, required: true },
+  name: { type: String, required: true, trim: true },
+  email: { type: String, unique: true, required: true,  trim: true,
+  lowercase: true },
   password: { type: String, required: true },
   avatar: { type: String }, // Field to store the avatar path
-  phone: { type: String }, // New field to store phone number
+phone: {
+  type: String,
+  match: /^[0-9]{10}$/
+},
   address: {
     street: { type: String },
     city: { type: String },
@@ -53,8 +57,6 @@ const userSchema = new mongoose.Schema({
     default: "user",
   },
 
-  otp: { type: String },
-  otpExpires: { type: Date },
   createdAt: { type: Date, default: Date.now }, // Timestamp for record creation
   updatedAt: { type: Date, default: Date.now }, // Timestamp for last update
 });

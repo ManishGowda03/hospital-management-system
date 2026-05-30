@@ -13,8 +13,7 @@ const {
   getUserCounts,
   getAllUsers,
   updateUserRoleAndPrivileges,
-  forgotPassword,
-  verifyOTP,
+  checkUserEmail,
   resetPassword,
   getUserCountsByRole,
 } = require("../controllers/UserController");
@@ -55,9 +54,11 @@ router.get("/getUserCounts", getUserCounts);
 router.get("/all-users", getAllUsers);
 router.get("/single-user/:id", getUserById);
 router.put("/update-user-role/:id", updateUserRoleAndPrivileges);
-router.post("/forgot-password", forgotPassword);
-router.post("/verify-otp", verifyOTP);
 router.post("/reset-password", resetPassword);
 router.get("/getUserCountsByRole", getUserCountsByRole);
+router.post(
+  "/check-user-email",
+  checkUserEmail
+);
 
 module.exports = router;

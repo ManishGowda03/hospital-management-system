@@ -4,52 +4,6 @@ const User = require("../models/UserModel");
 const fs = require("fs");
 const path = require("path");
 const multer = require("multer");
-const crypto = require("crypto");
-const nodemailer = require("nodemailer");
-
-// ----------------------------
-// HELPER TO SEND EMAIL
-// ----------------------------
-const sendEmail = (email, subject, message) => {
-  const transporter = nodemailer.createTransport({
-    service: "Gmail",
-    auth: {
-      user: process.env.EMAIL,
-      pass: process.env.EMAIL_PASSWORD,
-    },
-  });
-
-  const mailOptions = {
-    from: process.env.EMAIL,
-    to: email,
-    subject,
-    text: message,
-  };
-
-  transporter.sendMail(mailOptions, (err, info) => {
-    if (err) {
-      console.error("Failed to send email:", err);
-    } else {
-      console.log("Email sent successfully:", info.response);
-    }
-  });
-};
-
-// ----------------------------
-// Function to send SMS (Twilio)
-// ----------------------------
-const sendSMS = async (phone, message) => {
-  try {
-    const sms = await client.messages.create({
-      body: message,
-      from: process.env.TWILIO_PHONE_NUMBER,
-      to: phone,
-    });
-    console.log("SMS sent with SID: " + sms.sid);
-  } catch (error) {
-    console.error("Error sending SMS:", error.message);
-  }
-};
 
 // ----------------------------
 // MULTER STORAGE CONFIG
@@ -252,65 +206,41 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-const forgotPassword = async (req, res) => {
-  try {
-    const { email } = req.body;
-    const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ message: "User not found" });
 
-    const otp = crypto.randomInt(100000, 999999).toString();
-    const otpExpires = Date.now() + 10 * 60 * 1000;
-
-    await User.findOneAndUpdate({ email }, { $set: { otp, otpExpires } });
-
-    sendEmail(
-      email,
-      "Password Reset OTP",
-      `Your OTP is ${otp}. It expires in 10 minutes.`
-    );
-
-    res.status(200).json({ message: "OTP sent to email" });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-const verifyOTP = async (req, res) => {
-  try {
-    const { email, otp } = req.body;
-    const user = await User.findOne({ email, otp });
-    if (!user || user.otpExpires < Date.now()) {
-      return res.status(400).json({ message: "Invalid or expired OTP" });
-    }
-
-    res
-      .status(200)
-      .json({ message: "OTP verified. Proceed to reset password." });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
 
 const resetPassword = async (req, res) => {
   try {
-    const { email, otp, newPassword } = req.body;
+    const { email, newPassword } = req.body;
 
-    const user = await User.findOne({ email, otp });
-    if (!user || user.otpExpires < Date.now()) {
-      return res.status(400).json({ message: "Invalid or expired OTP" });
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
     }
 
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    const hashedPassword = await bcrypt.hash(
+      newPassword,
+      10
+    );
+
     user.password = hashedPassword;
-    user.otp = undefined;
-    user.otpExpires = undefined;
 
     await user.save();
 
-    res.status(200).json({ message: "Password reset successfully" });
+    res.status(200).json({
+      message: "Password reset successful",
+    });
   } catch (error) {
-    console.error("Error resetting password:", error.message);
-    res.status(500).json({ error: error.message });
+    console.error(
+      "Password Reset Error:",
+      error.message
+    );
+
+    res.status(500).json({
+      message: "Server error",
+    });
   }
 };
 
@@ -339,6 +269,31 @@ const updateUserRoleAndPrivileges = async (req, res) => {
   }
 };
 
+const checkUserEmail = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const user = await User.findOne({
+      email: email.trim(),
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    res.status(200).json({
+      message: "User found",
+    });
+  } catch (error) {
+    console.error("Check Email Error:", error.message);
+    res.status(500).json({
+      message: "Server error",
+    });
+  }
+};
+
 module.exports = {
   register,
   login,
@@ -347,10 +302,9 @@ module.exports = {
   deleteUser,
   getUserCounts,
   upload,
+  checkUserEmail,
   getAllUsers,
   updateUserRoleAndPrivileges,
-  forgotPassword,
-  verifyOTP,
   resetPassword,
   getUserCountsByRole,
 };
