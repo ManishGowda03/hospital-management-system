@@ -30,7 +30,7 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://localhost:5174", "https://yourfrontend.vercel.app",], // Replace with your frontend's URL
+    origin: ["http://localhost:5173", "http://localhost:5174", "hospital-management-system-zeta-eight.vercel.app",], // Replace with your frontend's URL
     credentials: true, // Enable credentials
   })
 );
