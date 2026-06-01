@@ -1,33 +1,4 @@
 const ContactModel = require("../models/ContactModel");
-const nodemailer = require("nodemailer");
-
-// Function to send a reply notification email
-const sendReplyEmail = (userEmail, userName, originalMessage, replyContent) => {
-  const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
-    auth: {
-      user: process.env.EMAIL,
-      pass: process.env.EMAIL_PASSWORD,
-    },
-  });
-
-  const mailOptions = {
-    from: process.env.EMAIL,
-    to: userEmail,
-    subject: "New Reply to Your Message",
-    text: `Dear ${userName},\n\nWe have responded to your message: "${originalMessage}".\n\nReply from our team:\n"${replyContent}"\n\nThank you for reaching out to us.\n\nBest regards,\nEcoders Team`,
-  };
-
-  transporter.sendMail(mailOptions, (err, info) => {
-    if (err) {
-      console.error("Error sending reply email:", err);
-      return;
-    }
-    console.log("Reply email sent successfully:", info.response);
-  });
-};
 
 // Controller to add a contact message
 exports.addContactMessage = async (req, res) => {
