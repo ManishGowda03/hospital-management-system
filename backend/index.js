@@ -30,7 +30,7 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://localhost:5174"], // Replace with your frontend's URL
+    origin: ["http://localhost:5173", "http://localhost:5174", "https://yourfrontend.vercel.app",], // Replace with your frontend's URL
     credentials: true, // Enable credentials
   })
 );
@@ -54,15 +54,6 @@ app.use("/api", PediatricRoutes);
 app.use("/api", MortuaryRoutes);
 app.use("/api", DischargeRoutes);
 app.use("/api", AppointmentRoutes);
-
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Authorization, Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
 
 // connect to mongodb database.
 mongoose
